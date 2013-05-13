@@ -26,7 +26,7 @@ class UserInProject
      *
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", nullable=false)
      * })
      */
     private $user;
@@ -36,7 +36,7 @@ class UserInProject
      *
      * @ORM\ManyToOne(targetEntity="Project")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="project_id", referencedColumnName="project_id")
+     *   @ORM\JoinColumn(name="project_id", referencedColumnName="project_id", nullable=false)
      * })
      */
     private $project;
@@ -46,7 +46,7 @@ class UserInProject
      *
      * @ORM\ManyToOne(targetEntity="Role")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="role_id", referencedColumnName="role_id")
+     *   @ORM\JoinColumn(name="role_id", referencedColumnName="role_id", nullable=false)
      * })
      */
     private $role;

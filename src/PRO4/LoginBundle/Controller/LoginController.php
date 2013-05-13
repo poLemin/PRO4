@@ -3,19 +3,19 @@
 namespace PRO4\LoginBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+use PRO4\LoginBundle\Entity\User;
+
 class LoginController extends Controller {
-	private $email = "";
-	private $pwd = "";
-	private $rPwd = "";
-	private $errors = array();
 
     public function indexAction(Request $request) {
-	
-		
+		/*
 		$form = $this->createFormBuilder()
 			->add('email', 'email', array(
 			   'constraints' => new NotBlank(),
@@ -38,16 +38,53 @@ class LoginController extends Controller {
 			}
         }
 
-        return $this->render('PRO4LoginBundle:Login:login.html.twig', $this->getVars("Login", $form));
+        return $this->render('PRO4LoginBundle:Login:login.html.twig', array("form" => $form->createView()));
+		
+		*/
+		
+		return $this->redirect($this->generateUrl("login"));
     }
 	
-	public function processLogin($data)	{
-		return new Response("<html><head></head><body>" . $data . "</body></html>");
-		//return $this->redirect($this->generateUrl('pro4_login_homepage'));
+	public function logoutAction() {
+		// security-layer will do the rest
 	}
 	
-	public function processRegistration() {
-		return $this->redirect($this->generateUrl('pro4_login_homepage'));
+	public function loginAction()	{
+		$request = $this->getRequest();
+        $session = $request->getSession();
+
+        // get the login error if there is one
+        if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
+            $error = $request->attributes->get(
+                SecurityContext::AUTHENTICATION_ERROR
+            );
+        } else {
+            $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
+            $session->remove(SecurityContext::AUTHENTICATION_ERROR);
+        }
+
+        return $this->render(
+            'PRO4LoginBundle:Login:login.html.twig',
+            array(
+                "last_email" => $session->get(SecurityContext::LAST_USERNAME),
+                "error"      => $error
+            )
+        );
+	}
+	
+	private function processRegistration($data) {
+		$user = new User();
+		$user->setEMail($data["email"]);
+		
+		$factory = $this->get('security.encoder_factory');
+		$encoder = $factory->getEncoder($user);
+		$password = $encoder->encodePassword($data["password"], $user->getSalt());
+		$user->setPassword($password);
+		
+		$em = $this->getDoctrine()->getManager();
+		$em->persist($user);
+		$em->flush();
+		return new Response('Created user '.$user->getEMail());
 	}
 	
 	public function registerAction(Request $request) {
@@ -69,18 +106,10 @@ class LoginController extends Controller {
 		if ($request->isMethod('POST')) {
             $form->bind($request);
 			if($form->isValid()) {
-				processRegistration($form->getData());
+				$this->processRegistration($form->getData());
 			}
         }
 		
-		return $this->render('PRO4LoginBundle:Login:register.html.twig', $this->getVars("Register", $form));
-	}
-	
-	private function getVars($title, $form) {
-		return array(	"email" => $this->email,
-						"errors" => $this->errors,
-						"title" => $title,
-						"form" => $form->createView()
-					);
+		return $this->render('PRO4LoginBundle:Login:register.html.twig', array("form" => $form->createView()));
 	}
 }

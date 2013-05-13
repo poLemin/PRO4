@@ -47,7 +47,7 @@ class File
      *
      * @ORM\ManyToOne(targetEntity="Project")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="project_id", referencedColumnName="project_id")
+     *   @ORM\JoinColumn(name="project_id", referencedColumnName="project_id", nullable=false)
      * })
      */
     private $project;

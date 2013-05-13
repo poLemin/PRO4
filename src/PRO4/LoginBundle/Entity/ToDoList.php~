@@ -56,4 +56,106 @@ class ToDoList
     private $project;
 
 
+
+    /**
+     * Get toDoListId
+     *
+     * @return integer 
+     */
+    public function getToDoListId()
+    {
+        return $this->toDoListId;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return ToDoList
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set completed
+     *
+     * @param boolean $completed
+     * @return ToDoList
+     */
+    public function setCompleted($completed)
+    {
+        $this->completed = $completed;
+    
+        return $this;
+    }
+
+    /**
+     * Get completed
+     *
+     * @return boolean 
+     */
+    public function getCompleted()
+    {
+        return $this->completed;
+    }
+
+    /**
+     * Set department
+     *
+     * @param \PRO4\LoginBundle\Entity\Department $department
+     * @return ToDoList
+     */
+    public function setDepartment(\PRO4\LoginBundle\Entity\Department $department = null)
+    {
+        $this->department = $department;
+    
+        return $this;
+    }
+
+    /**
+     * Get department
+     *
+     * @return \PRO4\LoginBundle\Entity\Department 
+     */
+    public function getDepartment()
+    {
+        return $this->department;
+    }
+
+    /**
+     * Set project
+     *
+     * @param \PRO4\LoginBundle\Entity\Project $project
+     * @return ToDoList
+     */
+    public function setProject(\PRO4\LoginBundle\Entity\Project $project = null)
+    {
+        $this->project = $project;
+    
+        return $this;
+    }
+
+    /**
+     * Get project
+     *
+     * @return \PRO4\LoginBundle\Entity\Project 
+     */
+    public function getProject()
+    {
+        return $this->project;
+    }
 }

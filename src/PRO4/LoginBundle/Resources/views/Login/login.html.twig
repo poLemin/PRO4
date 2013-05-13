@@ -3,5 +3,30 @@
 {% set title = 'Login' %}
 
 {% block header %}
-	<a href="{{ path('pro4_login_register') }}">Register</a>
+	<a href="{{ path('register') }}">Register</a>
+{% endblock %}
+
+{% block form %}
+	<fieldset>
+		<legend>{{ title|capitalize }}</legend>
+		{% if error %}
+		<ul class="error">
+			<li>{{ error }}</li>
+		</ul>
+		{% endif %}
+		
+		<ul>
+			<li>
+				<label for="email">E-Mail:</label>
+				<input type="text" id="email" name="_email" value="{{ last_email }}" />
+			</li>
+			<li>
+				<label for="password">Password:</label>
+				<input type="password" id="password" name="_password" />
+			</li>
+			<li>
+				<button type="submit" name="{{ title }}"> {{ title|capitalize }} </button>
+			</li>
+		</ul>
+	</fieldset>
 {% endblock %}

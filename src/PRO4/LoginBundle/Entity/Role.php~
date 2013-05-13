@@ -29,4 +29,37 @@ class Role
     private $roleName;
 
 
+
+    /**
+     * Get roleId
+     *
+     * @return integer 
+     */
+    public function getRoleId()
+    {
+        return $this->roleId;
+    }
+
+    /**
+     * Set roleName
+     *
+     * @param string $roleName
+     * @return Role
+     */
+    public function setRoleName($roleName)
+    {
+        $this->roleName = $roleName;
+    
+        return $this;
+    }
+
+    /**
+     * Get roleName
+     *
+     * @return string 
+     */
+    public function getRoleName()
+    {
+        return $this->roleName;
+    }
 }

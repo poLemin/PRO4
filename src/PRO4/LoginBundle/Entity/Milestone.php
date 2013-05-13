@@ -54,7 +54,7 @@ class Milestone
      *
      * @ORM\ManyToOne(targetEntity="MilestonePlan")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="milestone_plan_id", referencedColumnName="milestone_plan_id")
+     *   @ORM\JoinColumn(name="milestone_plan_id", referencedColumnName="milestone_plan_id", nullable=false)
      * })
      */
     private $milestonePlan;

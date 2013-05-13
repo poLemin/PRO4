@@ -17,7 +17,7 @@ class ListItem
      *
      * @ORM\Column(name="list_item_id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $listItemId;
 
@@ -40,7 +40,7 @@ class ListItem
      *
      * @ORM\ManyToOne(targetEntity="ToDoList")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="to-do-list_id", referencedColumnName="to-do-list_id")
+     *   @ORM\JoinColumn(name="to_do_list_id", referencedColumnName="to_do_list_id", nullable=false)
      * })
      */
     private $toDoList;

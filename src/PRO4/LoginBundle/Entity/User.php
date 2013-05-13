@@ -18,16 +18,21 @@ class User implements UserInterface
      *
      * @ORM\Column(name="user_id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $userId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="e-mail", type="string", length=100, nullable=false)
+     * @ORM\Column(name="eMail", type="string", length=100, unique = true, nullable=false)
      */
     private $eMail;
+	
+	/**
+     * @ORM\Column(name="salt", type="string", length=32)
+     */
+    private $salt;
 
     /**
      * @var string
@@ -37,13 +42,18 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @var string
+     * @var boolean
      *
-     * @ORM\Column(name="activation_code", type="string", length=40, nullable=true)
+     * @ORM\Column(name="activated", type="boolean")
      */
-    private $activationCode;
+    private $activated;
 
 
+	public function __construct()
+    {
+        $this->activated = false;
+        $this->salt = md5(uniqid(null, true));
+    }
 
     /**
      * Get userId
@@ -92,9 +102,57 @@ class User implements UserInterface
     }
 
     /**
-     * Get password
+     * activate user
      *
-     * @return string 
+     * @return User
+     */
+    public function activate()
+    {
+        $this->activated = true;
+    
+        return $this;
+    }
+
+	/**
+     * deactivate user
+     *
+     * @return User
+     */
+    public function deactivate()
+    {
+        $this->activated = false;
+    
+        return $this;
+    }
+
+    /**
+     * Get activation-status
+     *
+     * @return boolean 
+     */
+    public function isActivated()
+    {
+        return $this->activated;
+    }
+	
+	/**
+     * @inheritDoc
+     */
+    public function getUsername()
+    {
+        return $this->eMail;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSalt()
+    {
+        return $this->salt;
+    }
+
+    /**
+     * @inheritDoc
      */
     public function getPassword()
     {
@@ -102,25 +160,73 @@ class User implements UserInterface
     }
 
     /**
-     * Set activationCode
+     * @inheritDoc
+     */
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function eraseCredentials()
+    {
+    }
+
+    /**
+     * @see \Serializable::serialize()
+     */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+        ));
+    }
+
+    /**
+     * @see \Serializable::unserialize()
+     */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+        ) = unserialize($serialized);
+    }
+
+    /**
+     * Set salt
      *
-     * @param string $activationCode
+     * @param string $salt
      * @return User
      */
-    public function setActivationCode($activationCode)
+    public function setSalt($salt)
     {
-        $this->activationCode = $activationCode;
+        $this->salt = $salt;
     
         return $this;
     }
 
     /**
-     * Get activationCode
+     * Set activated
      *
-     * @return string 
+     * @param boolean $activated
+     * @return User
      */
-    public function getActivationCode()
+    public function setActivated($activated)
     {
-        return $this->activationCode;
+        $this->activated = $activated;
+    
+        return $this;
+    }
+
+    /**
+     * Get activated
+     *
+     * @return boolean 
+     */
+    public function getActivated()
+    {
+        return $this->activated;
     }
 }

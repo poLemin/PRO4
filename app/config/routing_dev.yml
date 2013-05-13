@@ -1,10 +1,21 @@
-pro4_login_login:
-    pattern:  /
-    defaults: { _controller: PRO4LoginBundle:Login:index }
+homepage:
+    pattern: /
+    defaults: { _controller: PRO4LoginBundle:Login:index}
 
-pro4_login_register:
-    pattern:  /register/
+login:
+    pattern:  /login
+    defaults: { _controller: PRO4LoginBundle:Login:login}
+
+login_check:
+    pattern: /loginCheck
+
+register:
+    pattern:  /register
     defaults: { _controller: PRO4LoginBundle:Login:register }
+
+logout:
+    pattern: /logout
+    defaults: { _controller: PRO4LoginBundle:Login:logout }
 
 _wdt:
     resource: "@WebProfilerBundle/Resources/config/routing/wdt.xml"

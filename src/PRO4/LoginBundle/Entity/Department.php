@@ -3,6 +3,7 @@
 namespace PRO4\LoginBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Department
@@ -17,7 +18,7 @@ class Department
      *
      * @ORM\Column(name="department_id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $departmentId;
 
@@ -40,21 +41,24 @@ class Department
      *
      * @ORM\ManyToOne(targetEntity="Project")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="project_id", referencedColumnName="project_id")
+     *   @ORM\JoinColumn(name="project_id", referencedColumnName="project_id", nullable=false)
      * })
      */
     private $project;
 	
 	/**
-     * @ManyToMany(targetEntity="User")
-     * @JoinTable(name="user_in_department",
-     *      joinColumns={@JoinColumn(name="department_id", referencedColumnName="department_id")},
-     *      inverseJoinColumns={@JoinColumn(name="user_id", referencedColumnName="user_id")}
+     * @ORM\ManyToMany(targetEntity="User")
+     * @ORM\JoinTable(name="user_in_department",
+     *      joinColumns={@ORM\JoinColumn(name="department_id", referencedColumnName="department_id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="user_id")}
      *      )
      **/
 	private $users;
 
-
+	public function __construct()
+	{
+		$this->users = new ArrayCollection();
+	}
 
     /**
      * Get departmentId
@@ -139,4 +143,27 @@ class Department
 	{
 		return $this->users;
 	}
+
+    /**
+     * Add users
+     *
+     * @param \PRO4\LoginBundle\Entity\User $users
+     * @return Department
+     */
+    public function addUser(\PRO4\LoginBundle\Entity\User $users)
+    {
+        $this->users[] = $users;
+    
+        return $this;
+    }
+
+    /**
+     * Remove users
+     *
+     * @param \PRO4\LoginBundle\Entity\User $users
+     */
+    public function removeUser(\PRO4\LoginBundle\Entity\User $users)
+    {
+        $this->users->removeElement($users);
+    }
 }

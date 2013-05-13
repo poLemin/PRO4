@@ -31,7 +31,7 @@ class UserStats
     /**
      * @var \User
      *
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\OneToOne(targetEntity="User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
      * })
@@ -39,4 +39,60 @@ class UserStats
     private $user;
 
 
+
+    /**
+     * Get userStatsId
+     *
+     * @return integer 
+     */
+    public function getUserStatsId()
+    {
+        return $this->userStatsId;
+    }
+
+    /**
+     * Set online
+     *
+     * @param boolean $online
+     * @return UserStats
+     */
+    public function setOnline($online)
+    {
+        $this->online = $online;
+    
+        return $this;
+    }
+
+    /**
+     * Get online
+     *
+     * @return boolean 
+     */
+    public function getOnline()
+    {
+        return $this->online;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \PRO4\LoginBundle\Entity\User $user
+     * @return UserStats
+     */
+    public function setUser(\PRO4\LoginBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+    
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \PRO4\LoginBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 }
