@@ -1,0 +1,221 @@
+<?php
+
+namespace PRO4\LoginBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Event
+ *
+ * @ORM\Table(name="event")
+ * @ORM\Entity
+ */
+class Event
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="event_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $eventId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=80, nullable=false)
+     */
+    private $title;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="date", nullable=false)
+     */
+    private $date;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="time", type="time", nullable=true)
+     */
+    private $time;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @var \Department
+     *
+     * @ORM\ManyToOne(targetEntity="Department")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="department_id", referencedColumnName="department_id")
+     * })
+     */
+    private $department;
+
+    /**
+     * @var \Project
+     *
+     * @ORM\ManyToOne(targetEntity="Project")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="project_id", referencedColumnName="project_id")
+     * })
+     */
+    private $project;
+
+
+
+    /**
+     * Get eventId
+     *
+     * @return integer 
+     */
+    public function getEventId()
+    {
+        return $this->eventId;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     * @return Event
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Event
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+    
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime 
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set time
+     *
+     * @param \DateTime $time
+     * @return Event
+     */
+    public function setTime($time)
+    {
+        $this->time = $time;
+    
+        return $this;
+    }
+
+    /**
+     * Get time
+     *
+     * @return \DateTime 
+     */
+    public function getTime()
+    {
+        return $this->time;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Event
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set department
+     *
+     * @param \PRO4\LoginBundle\Entity\Department $department
+     * @return Event
+     */
+    public function setDepartment(\PRO4\LoginBundle\Entity\Department $department = null)
+    {
+        $this->department = $department;
+    
+        return $this;
+    }
+
+    /**
+     * Get department
+     *
+     * @return \PRO4\LoginBundle\Entity\Department 
+     */
+    public function getDepartment()
+    {
+        return $this->department;
+    }
+
+    /**
+     * Set project
+     *
+     * @param \PRO4\LoginBundle\Entity\Project $project
+     * @return Event
+     */
+    public function setProject(\PRO4\LoginBundle\Entity\Project $project = null)
+    {
+        $this->project = $project;
+    
+        return $this;
+    }
+
+    /**
+     * Get project
+     *
+     * @return \PRO4\LoginBundle\Entity\Project 
+     */
+    public function getProject()
+    {
+        return $this->project;
+    }
+}

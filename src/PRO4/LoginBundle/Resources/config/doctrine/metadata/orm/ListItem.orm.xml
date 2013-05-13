@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="ListItem" table="list_item">
+    <id name="listItemId" type="integer" column="list_item_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="name" type="string" column="name" length="40" nullable="false"/>
+    <field name="completed" type="boolean" column="completed" nullable="false"/>
+    <many-to-one field="toDoList" target-entity="ToDoList">
+      <join-columns>
+        <join-column name="to-do-list_id" referenced-column-name="to-do-list_id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,66 @@
+<?php
+
+namespace PRO4\LoginBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * File
+ *
+ * @ORM\Table(name="file")
+ * @ORM\Entity
+ */
+class File
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="file_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $fileId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=100, nullable=false)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="path", type="string", length=100, nullable=false)
+     */
+    private $path;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @var \Project
+     *
+     * @ORM\ManyToOne(targetEntity="Project")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="project_id", referencedColumnName="project_id")
+     * })
+     */
+    private $project;
+
+    /**
+     * @var \Department
+     *
+     * @ORM\ManyToOne(targetEntity="Department")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="department_id", referencedColumnName="department_id")
+     * })
+     */
+    private $department;
+
+
+}

@@ -1,0 +1,24 @@
+{% extends 'PRO4LoginBundle::base.html.twig' %}
+
+{% block content %}
+	<header>{% block header %} {% endblock %}</header>
+	<form method="post" {{ form_enctype(form) }}>
+		<fieldset>
+			<legend>{{ title|capitalize }}</legend>
+			<div class="error">
+				{{ form_errors(form) }}
+			</div>
+			
+			<ul>
+				<li> {{ form_row(form.email) }} </li>
+				<li> {{ form_row(form.password) }}</li>
+				<li>
+					<button type="submit" name="{{ title }}"> {{ title|capitalize }} </button>
+				</li>
+			</ul>
+			
+			{{ form_widget(form) }}
+		</fieldset>
+	</form>
+		
+{% endblock %}

@@ -1,0 +1,15 @@
+parameters:
+#    pro4_login.example.class: PRO4\LoginBundle\Example
+
+services:
+#    pro4_login.example:
+#        class: %pro4_login.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+
+security:
+    providers:
+        main:
+            entity: { class: PRO4\LoginBundle\Entity\User, property: eMail }
+			
+	encoders:
+        PRO4\LoginBundle\Entity\User: sha512

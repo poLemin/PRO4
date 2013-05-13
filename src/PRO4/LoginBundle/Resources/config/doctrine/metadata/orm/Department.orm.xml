@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Department" table="department">
+    <id name="departmentId" type="integer" column="department_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="name" type="string" column="name" length="40" nullable="false"/>
+    <field name="color" type="string" column="color" length="6" nullable="false"/>
+    <many-to-one field="projekt" target-entity="Project">
+      <join-columns>
+        <join-column name="projekt_id" referenced-column-name="project_id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

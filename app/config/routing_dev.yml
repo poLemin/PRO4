@@ -1,15 +1,10 @@
-_welcome:
+pro4_login_login:
     pattern:  /
-    defaults: { _controller: AcmeDemoBundle:Welcome:index }
+    defaults: { _controller: PRO4LoginBundle:Login:index }
 
-_demo_secured:
-    resource: "@AcmeDemoBundle/Controller/SecuredController.php"
-    type:     annotation
-
-_demo:
-    resource: "@AcmeDemoBundle/Controller/DemoController.php"
-    type:     annotation
-    prefix:   /demo
+pro4_login_register:
+    pattern:  /register/
+    defaults: { _controller: PRO4LoginBundle:Login:register }
 
 _wdt:
     resource: "@WebProfilerBundle/Resources/config/routing/wdt.xml"

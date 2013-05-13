@@ -1,0 +1,55 @@
+<?php
+
+namespace PRO4\LoginBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * UserInProject
+ *
+ * @ORM\Table(name="user_in_project")
+ * @ORM\Entity
+ */
+class UserInProject
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="user_in_project_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $userInProjectId;
+
+    /**
+     * @var \User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     * })
+     */
+    private $user;
+
+    /**
+     * @var \Project
+     *
+     * @ORM\ManyToOne(targetEntity="Project")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="project_id", referencedColumnName="project_id")
+     * })
+     */
+    private $project;
+
+    /**
+     * @var \Role
+     *
+     * @ORM\ManyToOne(targetEntity="Role")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="role_id", referencedColumnName="role_id")
+     * })
+     */
+    private $role;
+
+
+}

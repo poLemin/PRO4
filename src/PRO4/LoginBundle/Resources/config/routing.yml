@@ -1,0 +1,3 @@
+pro4_login_homepage:
+    pattern:  /
+    defaults: { _controller: PRO4LoginBundle:Login:index }

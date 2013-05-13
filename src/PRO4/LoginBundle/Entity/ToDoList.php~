@@ -1,0 +1,59 @@
+<?php
+
+namespace PRO4\LoginBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * ToDoList
+ *
+ * @ORM\Table(name="to-do-list")
+ * @ORM\Entity
+ */
+class ToDoList
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="to-do-list_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $toDoListId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=40, nullable=false)
+     */
+    private $name;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="completed", type="boolean", nullable=false)
+     */
+    private $completed;
+
+    /**
+     * @var \Department
+     *
+     * @ORM\ManyToOne(targetEntity="Department")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="department_id", referencedColumnName="department_id")
+     * })
+     */
+    private $department;
+
+    /**
+     * @var \Project
+     *
+     * @ORM\ManyToOne(targetEntity="Project")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="project_id", referencedColumnName="project_id")
+     * })
+     */
+    private $project;
+
+
+}

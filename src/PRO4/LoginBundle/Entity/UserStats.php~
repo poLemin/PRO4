@@ -1,0 +1,42 @@
+<?php
+
+namespace PRO4\LoginBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * UserStats
+ *
+ * @ORM\Table(name="user_stats")
+ * @ORM\Entity
+ */
+class UserStats
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="user_stats_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $userStatsId;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="online", type="boolean", nullable=false)
+     */
+    private $online;
+
+    /**
+     * @var \User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     * })
+     */
+    private $user;
+
+
+}

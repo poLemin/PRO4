@@ -1,0 +1,46 @@
+<?php
+
+namespace PRO4\LoginBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * User
+ *
+ * @ORM\Table(name="user")
+ * @ORM\Entity
+ */
+class User
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $userId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="e-mail", type="string", length=100, nullable=false)
+     */
+    private $eMail;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="password", type="string", length=40, nullable=false)
+     */
+    private $password;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="activation_code", type="string", length=40, nullable=true)
+     */
+    private $activationCode;
+
+
+}

@@ -1,0 +1,49 @@
+<?php
+
+namespace PRO4\LoginBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Department
+ *
+ * @ORM\Table(name="department")
+ * @ORM\Entity
+ */
+class Department
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="department_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $departmentId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=40, nullable=false)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="color", type="string", length=6, nullable=false)
+     */
+    private $color;
+
+    /**
+     * @var \Project
+     *
+     * @ORM\ManyToOne(targetEntity="Project")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="projekt_id", referencedColumnName="project_id")
+     * })
+     */
+    private $projekt;
+
+
+}

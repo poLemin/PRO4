@@ -1,0 +1,63 @@
+<?php
+
+namespace PRO4\LoginBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Milestone
+ *
+ * @ORM\Table(name="milestone")
+ * @ORM\Entity
+ */
+class Milestone
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="milestone_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $milestoneId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=40, nullable=false)
+     */
+    private $name;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="start_date", type="date", nullable=false)
+     */
+    private $startDate;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="end_date", type="date", nullable=false)
+     */
+    private $endDate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="color", type="string", length=6, nullable=false)
+     */
+    private $color;
+
+    /**
+     * @var \MilestonePlan
+     *
+     * @ORM\ManyToOne(targetEntity="MilestonePlan")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="milestone_plan_id", referencedColumnName="milestone_plan_id")
+     * })
+     */
+    private $milestonePlan;
+
+
+}
