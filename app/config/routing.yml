@@ -1,3 +1,7 @@
+pro4_event:
+    resource: "@PRO4EventBundle/Resources/config/routing.yml"
+    prefix:   /
+
 pro4_login:
     resource: "@PRO4LoginBundle/Resources/config/routing.yml"
     prefix:   /

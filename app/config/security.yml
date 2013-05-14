@@ -29,7 +29,7 @@ security:
             form_login: ~
             logout: ~
             #anonymous: ~
-            #http_basic:
+            http_basic: ~
             #    realm: "App"
 
     access_control:

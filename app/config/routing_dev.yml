@@ -9,6 +9,10 @@ login:
 login_check:
     pattern: /loginCheck
 
+app:
+    pattern: /app/
+    defaults: { _controller: PRO4EventBundle:Default:index}
+
 register:
     pattern:  /register
     defaults: { _controller: PRO4LoginBundle:Login:register }

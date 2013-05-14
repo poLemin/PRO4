@@ -43,6 +43,7 @@ class LoginController extends Controller {
 		*/
 		
 		return $this->redirect($this->generateUrl("login"));
+		
     }
 	
 	public function logoutAction() {
@@ -84,7 +85,8 @@ class LoginController extends Controller {
 		$em = $this->getDoctrine()->getManager();
 		$em->persist($user);
 		$em->flush();
-		return new Response('Created user '.$user->getEMail());
+		
+		return new Response('<html><head></head><body>Created user '. $user->getEMail() . '</body></html>');
 	}
 	
 	public function registerAction(Request $request) {
