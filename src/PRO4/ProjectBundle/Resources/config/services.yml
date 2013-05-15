@@ -1,0 +1,7 @@
+parameters:
+#    pro4_project.example.class: PRO4\ProjectBundle\Example
+
+services:
+#    pro4_project.example:
+#        class: %pro4_project.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

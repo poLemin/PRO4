@@ -1,0 +1,3 @@
+pro4_project_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: PRO4ProjectBundle:Default:index }
