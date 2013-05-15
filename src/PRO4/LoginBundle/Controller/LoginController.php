@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 use PRO4\LoginBundle\Entity\User;
@@ -63,7 +64,9 @@ class LoginController extends Controller {
             $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
             $session->remove(SecurityContext::AUTHENTICATION_ERROR);
         }
+		
 
+		
         return $this->render(
             'PRO4LoginBundle:Login:login.html.twig',
             array(
@@ -73,26 +76,10 @@ class LoginController extends Controller {
         );
 	}
 	
-	private function processRegistration($data) {
-		$user = new User();
-		$user->setEMail($data["email"]);
-		
-		$factory = $this->get('security.encoder_factory');
-		$encoder = $factory->getEncoder($user);
-		$password = $encoder->encodePassword($data["password"], $user->getSalt());
-		$user->setPassword($password);
-		
-		$em = $this->getDoctrine()->getManager();
-		$em->persist($user);
-		$em->flush();
-		
-		return new Response('<html><head></head><body>Created user '. $user->getEMail() . '</body></html>');
-	}
-	
 	public function registerAction(Request $request) {
 		$form = $this->createFormBuilder()
 			->add('email', 'email', array(
-			   'constraints' => new NotBlank(),
+			   'constraints' => array(new NotBlank(), new Email()),
 			   'label' => "Email")
 			)
 			->add('password', 'repeated', array(
@@ -108,7 +95,20 @@ class LoginController extends Controller {
 		if ($request->isMethod('POST')) {
             $form->bind($request);
 			if($form->isValid()) {
-				$this->processRegistration($form->getData());
+				$data = $form->getData();
+				$user = new User();
+				$user->setEMail($data["email"]);
+				
+				$factory = $this->get('security.encoder_factory');
+				$encoder = $factory->getEncoder($user);
+				$password = $encoder->encodePassword($data["password"], $user->getSalt());
+				$user->setPassword($password);
+				
+				$em = $this->getDoctrine()->getManager();
+				$em->persist($user);
+				$em->flush();
+				
+				return $this->redirect($this->generateUrl("login"));
 			}
         }
 		

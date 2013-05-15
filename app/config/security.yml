@@ -13,7 +13,7 @@ security:
 
     providers:
         main:
-            entity: { class: PRO4\LoginBundle\Entity\User, property: eMail }
+            entity: { class: PRO4LoginBundle:User, property: eMail }
 
     firewalls:
         dev:
@@ -25,10 +25,14 @@ security:
             security: false
 
         app:
-            pattern:    ^/app/
-            form_login: ~
+            pattern: ^/
+            form_login: 
+                check_path: login_check
+                login_path: login
+                username_parameter: email
+                password_parameter: password
             logout: ~
-            #anonymous: ~
+            anonymous: ~
             http_basic: ~
             #    realm: "App"
 

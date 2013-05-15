@@ -25,12 +25,12 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="eMail", type="string", length=100, unique = true, nullable=false)
+     * @ORM\Column(name="eMail", type="string", length=100, unique=true, nullable=false)
      */
     private $eMail;
 	
 	/**
-     * @ORM\Column(name="salt", type="string", length=32)
+     * @ORM\Column(name="salt", type="string", length=32, nullable=false)
      */
     private $salt;
 
