@@ -13,6 +13,10 @@ app:
     pattern: /app/
     defaults: { _controller: PRO4EventBundle:Default:index}
 
+project:
+    pattern: /app/project
+    defaults: { _controller: PRO4ProjectBundle:Default:index}
+
 register:
     pattern:  /register
     defaults: { _controller: PRO4LoginBundle:Login:register }

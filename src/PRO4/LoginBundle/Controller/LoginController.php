@@ -15,36 +15,8 @@ use PRO4\LoginBundle\Entity\User;
 
 class LoginController extends Controller {
 
-    public function indexAction(Request $request) {
-		/*
-		$form = $this->createFormBuilder()
-			->add('email', 'email', array(
-			   'constraints' => new NotBlank(),
-			   'label' => "Email")
-			)
-			->add('password', 'password', array(
-				   'constraints' => array(
-					   new NotBlank(),
-					   new Length(array('min' => 8, 'max' => 30))
-				   ),
-				   'label' => "Password"
-			   )
-			)
-			->getForm();
-		
-        if ($request->isMethod('POST')) {
-            $form->bind($request);
-			if($form->isValid()) {
-				processLogin($form->getData());
-			}
-        }
-
-        return $this->render('PRO4LoginBundle:Login:login.html.twig', array("form" => $form->createView()));
-		
-		*/
-		
+    public function indexAction(Request $request) {	
 		return $this->redirect($this->generateUrl("login"));
-		
     }
 	
 	public function logoutAction() {
@@ -65,7 +37,7 @@ class LoginController extends Controller {
             $session->remove(SecurityContext::AUTHENTICATION_ERROR);
         }
 		
-
+		$error = $error ? "E-Mail and Password do not match!" : "";
 		
         return $this->render(
             'PRO4LoginBundle:Login:login.html.twig',
