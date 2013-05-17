@@ -1,0 +1,28 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+	<h1>Add Project</h1>
+	
+	<form method="post">
+		<fieldset>
+			<legend>Project Details</legend>
+			<ul>
+				<li>{{ form_row(form.name) }}</li>
+				<li>{{ form_row(form.description) }}</li>
+				<li><button type="submit" name="add">Add Project</button></li>
+			</ul>
+			{{ form_widget(form) }}
+		</fieldset>
+		
+		<fieldset>
+			<legend>Project Details</legend>
+			<ul>
+				<li>{{ form_row(form.name) }}</li>
+				<li>{{ form_row(form.description) }}</li>
+				<li><button type="submit" name="add">Add Project</button></li>
+			</ul>
+			{{ form_widget(form) }}
+		</fieldset>
+	</form>
+		
+{% endblock %}
