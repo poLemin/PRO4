@@ -40,7 +40,7 @@ class MilestonePlan
      *
      * @ORM\OneToOne(targetEntity="Project")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="project_id", referencedColumnName="project_id")
+     *   @ORM\JoinColumn(name="project_id", referencedColumnName="project_id", nullable=false, unique=true)
      * })
      */
     private $project;

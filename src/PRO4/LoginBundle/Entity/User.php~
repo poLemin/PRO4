@@ -3,13 +3,19 @@
 namespace PRO4\LoginBundle\Entity;
 
 use Symfony\Component\Security\Core\User\UserInterface;
+
 use Doctrine\ORM\Mapping as ORM;
+
+use Symfony\Component\Validator\Constraints as Assert;
+
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * User
  *
  * @ORM\Table(name="user")
  * @ORM\Entity
+ * @UniqueEntity("email")
  */
 class User implements UserInterface
 {
@@ -23,14 +29,16 @@ class User implements UserInterface
     private $userId;
 
     /**
-     * @var string
+     * @var string $email
      *
-     * @ORM\Column(name="e-mail", type="string", length=100, unique = true, nullable=false)
+     * @ORM\Column(name="eMail", type="string", length=100, unique=true, nullable=false)
+     * 
+     * @Assert\Email()
      */
     private $eMail;
 	
 	/**
-     * @ORM\Column(name="salt", type="string", length=32)
+     * @ORM\Column(name="salt", type="string", length=32, nullable=false)
      */
     private $salt;
 
@@ -51,7 +59,7 @@ class User implements UserInterface
 
 	public function __construct()
     {
-        $this->activated = false;
+        $this->activated = true;
         $this->salt = md5(uniqid(null, true));
     }
 
@@ -205,5 +213,28 @@ class User implements UserInterface
         $this->salt = $salt;
     
         return $this;
+    }
+
+    /**
+     * Set activated
+     *
+     * @param boolean $activated
+     * @return User
+     */
+    public function setActivated($activated)
+    {
+        $this->activated = $activated;
+    
+        return $this;
+    }
+
+    /**
+     * Get activated
+     *
+     * @return boolean 
+     */
+    public function getActivated()
+    {
+        return $this->activated;
     }
 }

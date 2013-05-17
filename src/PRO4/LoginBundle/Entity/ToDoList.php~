@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ToDoList
  *
- * @ORM\Table(name="to-do-list")
+ * @ORM\Table(name="to_do_list")
  * @ORM\Entity
  */
 class ToDoList
@@ -15,7 +15,7 @@ class ToDoList
     /**
      * @var integer
      *
-     * @ORM\Column(name="to-do-list_id", type="integer", nullable=false)
+     * @ORM\Column(name="to_do_list_id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -50,7 +50,7 @@ class ToDoList
      *
      * @ORM\ManyToOne(targetEntity="Project")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="project_id", referencedColumnName="project_id")
+     *   @ORM\JoinColumn(name="project_id", referencedColumnName="project_id", nullable=false)
      * })
      */
     private $project;

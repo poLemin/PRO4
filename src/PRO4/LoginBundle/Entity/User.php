@@ -3,13 +3,19 @@
 namespace PRO4\LoginBundle\Entity;
 
 use Symfony\Component\Security\Core\User\UserInterface;
+
 use Doctrine\ORM\Mapping as ORM;
+
+use Symfony\Component\Validator\Constraints as Assert;
+
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * User
  *
  * @ORM\Table(name="user")
  * @ORM\Entity
+ * @UniqueEntity("email")
  */
 class User implements UserInterface
 {
@@ -23,9 +29,11 @@ class User implements UserInterface
     private $userId;
 
     /**
-     * @var string
+     * @var string $email
      *
      * @ORM\Column(name="eMail", type="string", length=100, unique=true, nullable=false)
+     * 
+     * @Assert\Email()
      */
     private $eMail;
 	
@@ -52,8 +60,7 @@ class User implements UserInterface
 	public function __construct()
     {
         $this->activated = true;
-		$this->salt = "";
-        //$this->salt = md5(uniqid(null, true));
+        $this->salt = md5(uniqid(null, true));
     }
 
     /**

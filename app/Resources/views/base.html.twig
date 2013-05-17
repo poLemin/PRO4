@@ -1,13 +1,27 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	{% block stylesheets %}
+		<link href="{{ asset('bundles/pro4login/css/main.css') }}" type="text/css" rel="stylesheet" />
+		<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet" type="text/css" />
+	{% endblock %}
+    <title>PRO4</title>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+</head>
+
+<body>
+	<div id="wrap">
+		<header>
+			<a href="{{ path('logout') }}">Logout</a>
+		</header>
+		<div id="content">
+			{% block content %} {% endblock %}
+		</div>
+		<footer>
+			{% block footer %} {% endblock %}
+		</footer>
+    </div>
+</body>
 </html>
