@@ -2,9 +2,9 @@
 
 namespace PRO4\EventBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use PRO4\MainBundle\Controller\MyController;
 
-class DefaultController extends Controller
+class DefaultController extends MyController
 {
     public function indexAction()
     {

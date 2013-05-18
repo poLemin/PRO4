@@ -39,7 +39,7 @@ class Department
     /**
      * @var \Project
      *
-     * @ORM\ManyToOne(targetEntity="Project")
+     * @ORM\ManyToOne(targetEntity="PRO4\ProjectBundle\Entity\Project")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="project_id", referencedColumnName="project_id", nullable=false)
      * })
@@ -119,7 +119,7 @@ class Department
     /**
      * Set projekt
      *
-     * @param \PRO4\LoginBundle\Entity\Project $project
+     * @param \PRO4\ProjectBundle\Entity\Project $project
      * @return Department
      */
     public function setProject(\PRO4\LoginBundle\Entity\Project $project = null)
@@ -132,7 +132,7 @@ class Department
     /**
      * Get projekt
      *
-     * @return \PRO4\LoginBundle\Entity\Project 
+     * @return \PRO4\ProjectBundle\Entity\Project 
      */
     public function getProject()
     {

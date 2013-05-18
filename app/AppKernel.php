@@ -22,6 +22,12 @@ class AppKernel extends Kernel
             new PRO4\LoginBundle\PRO4LoginBundle(),
             new PRO4\EventBundle\PRO4EventBundle(),
             new PRO4\ProjectBundle\PRO4ProjectBundle(),
+            new PRO4\MainBundle\PRO4MainBundle(),
+            new PRO4\UserBundle\PRO4UserBundle(),
+            new PRO4\MilestoneBundle\PRO4MilestoneBundle(),
+            new PRO4\ToDoListBundle\PRO4ToDoListBundle(),
+            new PRO4\CalendarBundle\PRO4CalendarBundle(),
+            new PRO4\FileBundle\PRO4FileBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

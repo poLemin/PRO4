@@ -12,6 +12,15 @@
 </head>
 
 <body>
+	{% if status is defined %}
+		{% for key, msgs in status %}
+			<ul class="{{ key }}">
+			{% for msg in msgs %}
+				<li>{{ msg }}</li>
+			{% endfor %}
+			</ul>
+		{% endfor %}
+	{% endif %}
 	<div id="wrap">
 		<header>
 			<a href="{{ path('logout') }}">Logout</a>

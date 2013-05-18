@@ -3,6 +3,6 @@
 {% block content %}
 	<h1>Welcome {{  app.user.email }}!</h1>
 	
-	Do you want to create a new project? <a href="{{ path('add_project') }}"><button>Add a project <img src="{{ asset('img/arrow_icon.png') }}" alt="arrow"/></button></a>
+	Do you want to create a new project? <a href="{{ path('project_form') }}"><button>Add a project <img src="{{ asset('img/arrow_icon.png') }}" alt="arrow"/></button></a>
 		
 {% endblock %}

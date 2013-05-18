@@ -1,3 +1,27 @@
+pro4_file:
+    resource: "@PRO4FileBundle/Resources/config/routing.yml"
+    prefix:   /
+
+pro4_calendar:
+    resource: "@PRO4CalendarBundle/Resources/config/routing.yml"
+    prefix:   /
+
+pro4_to_do_list:
+    resource: "@PRO4ToDoListBundle/Resources/config/routing.yml"
+    prefix:   /
+
+pro4_milestone:
+    resource: "@PRO4MilestoneBundle/Resources/config/routing.yml"
+    prefix:   /
+
+pro4_user:
+    resource: "@PRO4UserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+pro4_main:
+    resource: "@PRO4MainBundle/Resources/config/routing.yml"
+    prefix:   /
+
 pro4_project:
     resource: "@PRO4ProjectBundle/Resources/config/routing.yml"
     prefix:   /

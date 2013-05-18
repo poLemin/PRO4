@@ -2,7 +2,8 @@
 
 namespace PRO4\LoginBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use PRO4\MainBundle\Controller\MyController;
+//use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +14,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 use PRO4\LoginBundle\Entity\User;
 
-class LoginController extends Controller {
+class LoginController extends MyController {
 
     public function indexAction(Request $request) {	
 		return $this->redirect($this->generateUrl("login"));
@@ -79,6 +80,11 @@ class LoginController extends Controller {
 				$em = $this->getDoctrine()->getManager();
 				$em->persist($user);
 				$em->flush();
+				
+				$this->get('session')->getFlashBag()->add(
+				    'success',
+				    'You successfully created a new User! Check your E-Mail to activate it!'
+				);
 				
 				return $this->redirect($this->generateUrl("login"));
 			}

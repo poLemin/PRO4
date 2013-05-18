@@ -17,7 +17,7 @@ class File
      *
      * @ORM\Column(name="file_id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $fileId;
 
@@ -45,7 +45,7 @@ class File
     /**
      * @var \Project
      *
-     * @ORM\ManyToOne(targetEntity="Project")
+     * @ORM\ManyToOne(targetEntity="PRO4\ProjectBundle\Entity\Project")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="project_id", referencedColumnName="project_id", nullable=false)
      * })
@@ -146,10 +146,10 @@ class File
     /**
      * Set project
      *
-     * @param \PRO4\LoginBundle\Entity\Project $project
+     * @param \PRO4\PRO4\ProjectBundle\Entity\Project $project
      * @return File
      */
-    public function setProject(\PRO4\LoginBundle\Entity\Project $project = null)
+    public function setProject(\PRO4\ProjectBundle\Entity\Project $project = null)
     {
         $this->project = $project;
     
@@ -159,7 +159,7 @@ class File
     /**
      * Get project
      *
-     * @return \PRO4\LoginBundle\Entity\Project 
+     * @return \PRO4\ProjectBundle\Entity\Project 
      */
     public function getProject()
     {

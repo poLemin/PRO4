@@ -52,7 +52,7 @@ class Milestone
     /**
      * @var \MilestonePlan
      *
-     * @ORM\ManyToOne(targetEntity="MilestonePlan")
+     * @ORM\ManyToOne(targetEntity="PRO4\ProjectBundle\Entity\MilestonePlan")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="milestone_plan_id", referencedColumnName="milestone_plan_id", nullable=false)
      * })
@@ -166,10 +166,10 @@ class Milestone
     /**
      * Set milestonePlan
      *
-     * @param \PRO4\LoginBundle\Entity\MilestonePlan $milestonePlan
+     * @param \PRO4\ProjectBundle\Entity\MilestonePlan $milestonePlan
      * @return Milestone
      */
-    public function setMilestonePlan(\PRO4\LoginBundle\Entity\MilestonePlan $milestonePlan = null)
+    public function setMilestonePlan(\PRO4\ProjectBundle\Entity\MilestonePlan $milestonePlan = null)
     {
         $this->milestonePlan = $milestonePlan;
     
@@ -179,7 +179,7 @@ class Milestone
     /**
      * Get milestonePlan
      *
-     * @return \PRO4\LoginBundle\Entity\MilestonePlan 
+     * @return \PRO4\ProjectBundle\Entity\MilestonePlan 
      */
     public function getMilestonePlan()
     {

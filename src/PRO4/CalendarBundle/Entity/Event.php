@@ -62,7 +62,7 @@ class Event
     /**
      * @var \Project
      *
-     * @ORM\ManyToOne(targetEntity="Project")
+     * @ORM\ManyToOne(targetEntity="PRO4\ProjectBundle\Entity\Project")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="project_id", referencedColumnName="project_id", nullable=false)
      * })
@@ -199,10 +199,10 @@ class Event
     /**
      * Set project
      *
-     * @param \PRO4\LoginBundle\Entity\Project $project
+     * @param \PRO4\ProjectBundle\Entity\Project $project
      * @return Event
      */
-    public function setProject(\PRO4\LoginBundle\Entity\Project $project = null)
+    public function setProject(\PRO4\ProjectBundle\Entity\Project $project = null)
     {
         $this->project = $project;
     
@@ -212,7 +212,7 @@ class Event
     /**
      * Get project
      *
-     * @return \PRO4\LoginBundle\Entity\Project 
+     * @return \PRO4\ProjectBundle\Entity\Project 
      */
     public function getProject()
     {
