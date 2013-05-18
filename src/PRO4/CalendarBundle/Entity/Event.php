@@ -1,6 +1,6 @@
 <?php
 
-namespace PRO4\LoginBundle\Entity;
+namespace PRO4\CalendarBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -52,7 +52,7 @@ class Event
     /**
      * @var \Department
      *
-     * @ORM\ManyToOne(targetEntity="Department")
+     * @ORM\ManyToOne(targetEntity="PRO4\ProjectBundle\Entity\Department")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="department_id", referencedColumnName="department_id")
      * })

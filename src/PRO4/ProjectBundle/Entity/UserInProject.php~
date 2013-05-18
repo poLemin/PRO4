@@ -1,6 +1,6 @@
 <?php
 
-namespace PRO4\LoginBundle\Entity;
+namespace PRO4\ProjectBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -24,7 +24,7 @@ class UserInProject
     /**
      * @var \User
      *
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="PRO4\UserBundle\Entity\User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", nullable=false)
      * })
@@ -44,7 +44,7 @@ class UserInProject
     /**
      * @var \Role
      *
-     * @ORM\ManyToOne(targetEntity="Role")
+     * @ORM\ManyToOne(targetEntity="PRO4\UserBundle\Entity\Role")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="role_id", referencedColumnName="role_id", nullable=false)
      * })
@@ -66,10 +66,10 @@ class UserInProject
     /**
      * Set user
      *
-     * @param \PRO4\LoginBundle\Entity\User $user
+     * @param \PRO4\UserBundle\Entity\User $user
      * @return UserInProject
      */
-    public function setUser(\PRO4\LoginBundle\Entity\User $user = null)
+    public function setUser(\PRO4\UserBundle\Entity\User $user = null)
     {
         $this->user = $user;
     
@@ -79,7 +79,7 @@ class UserInProject
     /**
      * Get user
      *
-     * @return \PRO4\LoginBundle\Entity\User 
+     * @return \PRO4\UserBundle\Entity\User 
      */
     public function getUser()
     {
@@ -89,10 +89,10 @@ class UserInProject
     /**
      * Set project
      *
-     * @param \PRO4\LoginBundle\Entity\Project $project
+     * @param \PRO4\ProjectBundle\Entity\Project $project
      * @return UserInProject
      */
-    public function setProject(\PRO4\LoginBundle\Entity\Project $project = null)
+    public function setProject(\PRO4\ProjectBundle\Entity\Project $project = null)
     {
         $this->project = $project;
     
@@ -102,7 +102,7 @@ class UserInProject
     /**
      * Get project
      *
-     * @return \PRO4\LoginBundle\Entity\Project 
+     * @return \PRO4\ProjectBundle\Entity\Project 
      */
     public function getProject()
     {
@@ -112,10 +112,10 @@ class UserInProject
     /**
      * Set role
      *
-     * @param \PRO4\LoginBundle\Entity\Role $role
+     * @param \PRO4\UserBundle\Entity\Role $role
      * @return UserInProject
      */
-    public function setRole(\PRO4\LoginBundle\Entity\Role $role = null)
+    public function setRole(\PRO4\UserBundle\Entity\Role $role = null)
     {
         $this->role = $role;
     
@@ -125,7 +125,7 @@ class UserInProject
     /**
      * Get role
      *
-     * @return \PRO4\LoginBundle\Entity\Role 
+     * @return \PRO4\UserBundle\Entity\Role 
      */
     public function getRole()
     {

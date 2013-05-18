@@ -1,6 +1,6 @@
 <?php
 
-namespace PRO4\LoginBundle\Entity;
+namespace PRO4\UserBundle\Entity;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 

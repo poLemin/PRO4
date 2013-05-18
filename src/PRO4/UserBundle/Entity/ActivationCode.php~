@@ -1,6 +1,6 @@
 <?php
 
-namespace PRO4\LoginBundle\Entity;
+namespace PRO4\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -74,10 +74,10 @@ class ActivationCode
     /**
      * Set userId
      *
-     * @param \PRO4\LoginBundle\Entity\User $userId
+     * @param \PRO4\UserBundle\Entity\User $userId
      * @return ActivationCode
      */
-    public function setUserId(\PRO4\LoginBundle\Entity\User $userId = null)
+    public function setUserId(\PRO4\UserBundle\Entity\User $userId = null)
     {
         $this->userId = $userId;
     
@@ -87,7 +87,7 @@ class ActivationCode
     /**
      * Get userId
      *
-     * @return \PRO4\LoginBundle\Entity\User 
+     * @return \PRO4\UserBundle\Entity\User 
      */
     public function getUserId()
     {

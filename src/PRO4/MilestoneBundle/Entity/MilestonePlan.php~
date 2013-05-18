@@ -1,6 +1,6 @@
 <?php
 
-namespace PRO4\ProjectBundle\Entity;
+namespace PRO4\MilestoneBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -38,7 +38,7 @@ class MilestonePlan
     /**
      * @var \Project
      *
-     * @ORM\OneToOne(targetEntity="Project")
+     * @ORM\OneToOne(targetEntity="PRO4\ProjectBundle\Entity\Project")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="project_id", referencedColumnName="project_id", nullable=false, unique=true)
      * })
@@ -106,10 +106,10 @@ class MilestonePlan
     /**
      * Set project
      *
-     * @param \PRO4\LoginBundle\Entity\Project $project
+     * @param \PRO4\ProjectBundle\Entity\Project $project
      * @return MilestonePlan
      */
-    public function setProject(\PRO4\LoginBundle\Entity\Project $project = null)
+    public function setProject(\PRO4\ProjectBundle\Entity\Project $project = null)
     {
         $this->project = $project;
     
@@ -119,7 +119,7 @@ class MilestonePlan
     /**
      * Get project
      *
-     * @return \PRO4\LoginBundle\Entity\Project 
+     * @return \PRO4\ProjectBundle\Entity\Project 
      */
     public function getProject()
     {

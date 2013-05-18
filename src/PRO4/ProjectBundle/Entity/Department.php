@@ -1,6 +1,6 @@
 <?php
 
-namespace PRO4\LoginBundle\Entity;
+namespace PRO4\ProjectBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -39,7 +39,7 @@ class Department
     /**
      * @var \Project
      *
-     * @ORM\ManyToOne(targetEntity="PRO4\ProjectBundle\Entity\Project")
+     * @ORM\ManyToOne(targetEntity="Project")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="project_id", referencedColumnName="project_id", nullable=false)
      * })
@@ -47,7 +47,7 @@ class Department
     private $project;
 	
 	/**
-     * @ORM\ManyToMany(targetEntity="User")
+     * @ORM\ManyToMany(targetEntity="PRO4\UserBundle\Entity\User")
      * @ORM\JoinTable(name="user_in_department",
      *      joinColumns={@ORM\JoinColumn(name="department_id", referencedColumnName="department_id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="user_id")}
@@ -147,10 +147,10 @@ class Department
     /**
      * Add users
      *
-     * @param \PRO4\LoginBundle\Entity\User $users
+     * @param \PRO4\UserBundle\Entity\User $users
      * @return Department
      */
-    public function addUser(\PRO4\LoginBundle\Entity\User $users)
+    public function addUser(\PRO4\UserBundle\Entity\User $users)
     {
         $this->users[] = $users;
     
@@ -160,9 +160,9 @@ class Department
     /**
      * Remove users
      *
-     * @param \PRO4\LoginBundle\Entity\User $users
+     * @param \PRO4\UserBundle\Entity\User $users
      */
-    public function removeUser(\PRO4\LoginBundle\Entity\User $users)
+    public function removeUser(\PRO4\UserBundle\Entity\User $users)
     {
         $this->users->removeElement($users);
     }

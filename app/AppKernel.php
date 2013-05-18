@@ -20,7 +20,6 @@ class AppKernel extends Kernel
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new PRO4\LoginBundle\PRO4LoginBundle(),
-            new PRO4\EventBundle\PRO4EventBundle(),
             new PRO4\ProjectBundle\PRO4ProjectBundle(),
             new PRO4\MainBundle\PRO4MainBundle(),
             new PRO4\UserBundle\PRO4UserBundle(),

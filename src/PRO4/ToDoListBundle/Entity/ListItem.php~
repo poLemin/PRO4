@@ -1,6 +1,6 @@
 <?php
 
-namespace PRO4\LoginBundle\Entity;
+namespace PRO4\ToDoListBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -106,10 +106,10 @@ class ListItem
     /**
      * Set toDoList
      *
-     * @param \PRO4\LoginBundle\Entity\ToDoList $toDoList
+     * @param \PRO4\ToDoListBundle\Entity\ToDoList $toDoList
      * @return ListItem
      */
-    public function setToDoList(\PRO4\LoginBundle\Entity\ToDoList $toDoList = null)
+    public function setToDoList(\PRO4\ToDoListBundle\Entity\ToDoList $toDoList = null)
     {
         $this->toDoList = $toDoList;
     
@@ -119,7 +119,7 @@ class ListItem
     /**
      * Get toDoList
      *
-     * @return \PRO4\LoginBundle\Entity\ToDoList 
+     * @return \PRO4\ToDoListBundle\Entity\ToDoList 
      */
     public function getToDoList()
     {

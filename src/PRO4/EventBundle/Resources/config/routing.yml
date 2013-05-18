@@ -1,3 +1,0 @@
-pro4_event_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: PRO4EventBundle:Default:index }

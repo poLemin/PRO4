@@ -1,6 +1,6 @@
 <?php
 
-namespace PRO4\LoginBundle\Entity;
+namespace PRO4\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -76,10 +76,10 @@ class UserStats
     /**
      * Set user
      *
-     * @param \PRO4\LoginBundle\Entity\User $user
+     * @param \PRO4\UserBundle\Entity\User $user
      * @return UserStats
      */
-    public function setUser(\PRO4\LoginBundle\Entity\User $user = null)
+    public function setUser(\PRO4\UserBundle\Entity\User $user = null)
     {
         $this->user = $user;
     
@@ -89,7 +89,7 @@ class UserStats
     /**
      * Get user
      *
-     * @return \PRO4\LoginBundle\Entity\User 
+     * @return \PRO4\UserBundle\Entity\User 
      */
     public function getUser()
     {

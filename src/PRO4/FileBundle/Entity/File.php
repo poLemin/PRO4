@@ -1,6 +1,6 @@
 <?php
 
-namespace PRO4\LoginBundle\Entity;
+namespace PRO4\FileBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -55,7 +55,7 @@ class File
     /**
      * @var \Department
      *
-     * @ORM\ManyToOne(targetEntity="Department")
+     * @ORM\ManyToOne(targetEntity="PRO4\ProjectBundle\Entity\Department")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="department_id", referencedColumnName="department_id")
      * })
@@ -169,10 +169,10 @@ class File
     /**
      * Set department
      *
-     * @param \PRO4\LoginBundle\Entity\Department $department
+     * @param \PRO4\ProjectBundle\Entity\Department $department
      * @return File
      */
-    public function setDepartment(\PRO4\LoginBundle\Entity\Department $department = null)
+    public function setDepartment(\PRO4\ProjectBundle\Entity\Department $department = null)
     {
         $this->department = $department;
     
@@ -182,7 +182,7 @@ class File
     /**
      * Get department
      *
-     * @return \PRO4\LoginBundle\Entity\Department 
+     * @return \PRO4\ProjectBundle\Entity\Department 
      */
     public function getDepartment()
     {

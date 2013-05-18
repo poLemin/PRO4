@@ -1,6 +1,6 @@
 <?php
 
-namespace PRO4\LoginBundle\Entity;
+namespace PRO4\ToDoListBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -17,7 +17,7 @@ class ToDoList
      *
      * @ORM\Column(name="to_do_list_id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $toDoListId;
 
@@ -38,7 +38,7 @@ class ToDoList
     /**
      * @var \Department
      *
-     * @ORM\ManyToOne(targetEntity="Department")
+     * @ORM\ManyToOne(targetEntity="PRO4\ProjectBundle\Entity\Department")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="department_id", referencedColumnName="department_id")
      * })
@@ -116,10 +116,10 @@ class ToDoList
     /**
      * Set department
      *
-     * @param \PRO4\LoginBundle\Entity\Department $department
+     * @param \PRO4\ProjectBundle\Entity\Department $department
      * @return ToDoList
      */
-    public function setDepartment(\PRO4\LoginBundle\Entity\Department $department = null)
+    public function setDepartment(\PRO4\ProjectBundle\Entity\Department $department = null)
     {
         $this->department = $department;
     
@@ -129,7 +129,7 @@ class ToDoList
     /**
      * Get department
      *
-     * @return \PRO4\LoginBundle\Entity\Department 
+     * @return \PRO4\ProjectBundle\Entity\Department 
      */
     public function getDepartment()
     {

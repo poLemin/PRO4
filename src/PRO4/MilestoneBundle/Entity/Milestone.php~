@@ -1,6 +1,6 @@
 <?php
 
-namespace PRO4\LoginBundle\Entity;
+namespace PRO4\MilestoneBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -17,7 +17,7 @@ class Milestone
      *
      * @ORM\Column(name="milestone_id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $milestoneId;
 
@@ -66,8 +66,7 @@ class Milestone
      *
      * @return integer 
      */
-    public function getMilestoneId()
-    {
+    public function getMilestoneId() {
         return $this->milestoneId;
     }
 
@@ -77,8 +76,7 @@ class Milestone
      * @param string $name
      * @return Milestone
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
     
         return $this;
@@ -89,8 +87,7 @@ class Milestone
      *
      * @return string 
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -100,8 +97,7 @@ class Milestone
      * @param \DateTime $startDate
      * @return Milestone
      */
-    public function setStartDate($startDate)
-    {
+    public function setStartDate($startDate) {
         $this->startDate = $startDate;
     
         return $this;
@@ -112,8 +108,7 @@ class Milestone
      *
      * @return \DateTime 
      */
-    public function getStartDate()
-    {
+    public function getStartDate() {
         return $this->startDate;
     }
 
@@ -123,8 +118,7 @@ class Milestone
      * @param \DateTime $endDate
      * @return Milestone
      */
-    public function setEndDate($endDate)
-    {
+    public function setEndDate($endDate) {
         $this->endDate = $endDate;
     
         return $this;
@@ -135,8 +129,7 @@ class Milestone
      *
      * @return \DateTime 
      */
-    public function getEndDate()
-    {
+    public function getEndDate() {
         return $this->endDate;
     }
 
@@ -146,8 +139,7 @@ class Milestone
      * @param string $color
      * @return Milestone
      */
-    public function setColor($color)
-    {
+    public function setColor($color) {
         $this->color = $color;
     
         return $this;
@@ -158,19 +150,17 @@ class Milestone
      *
      * @return string 
      */
-    public function getColor()
-    {
+    public function getColor() {
         return $this->color;
     }
 
     /**
      * Set milestonePlan
      *
-     * @param \PRO4\LoginBundle\Entity\MilestonePlan $milestonePlan
+     * @param \PRO4\MilestoneBundle\Entity\MilestonePlan $milestonePlan
      * @return Milestone
      */
-    public function setMilestonePlan(\PRO4\LoginBundle\Entity\MilestonePlan $milestonePlan = null)
-    {
+    public function setMilestonePlan(\PRO4\MilestoneBundle\Entity\MilestonePlan $milestonePlan = null) {
         $this->milestonePlan = $milestonePlan;
     
         return $this;
@@ -179,10 +169,9 @@ class Milestone
     /**
      * Get milestonePlan
      *
-     * @return \PRO4\LoginBundle\Entity\MilestonePlan 
+     * @return \PRO4\MilestoneBundle\Entity\MilestonePlan 
      */
-    public function getMilestonePlan()
-    {
+    public function getMilestonePlan() {
         return $this->milestonePlan;
     }
 }
