@@ -1,0 +1,7 @@
+parameters:
+#    pro4_calendar.example.class: PRO4\CalendarBundle\Example
+
+services:
+#    pro4_calendar.example:
+#        class: %pro4_calendar.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

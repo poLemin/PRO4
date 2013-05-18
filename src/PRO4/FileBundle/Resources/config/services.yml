@@ -1,0 +1,7 @@
+parameters:
+#    pro4_file.example.class: PRO4\FileBundle\Example
+
+services:
+#    pro4_file.example:
+#        class: %pro4_file.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
