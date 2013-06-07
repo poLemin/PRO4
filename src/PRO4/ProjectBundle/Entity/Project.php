@@ -4,6 +4,7 @@ namespace PRO4\ProjectBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Project
@@ -48,10 +49,24 @@ class Project
      * @ORM\Column(name="completed", type="boolean", nullable=false)
      */
     private $completed;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="\PRO4\UserBundle\Entity\User", inversedBy="projects")
+     * @ORM\JoinTable(name="user_in_project",
+     *      joinColumns={@ORM\JoinColumn(name="project_id", referencedColumnName="project_id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="user_id")}
+     *      )
+     */
+     private $users;
 
 
 	public function __construct() {
 		$this->completed = false;
+		$this->users = new ArrayCollection();
+	}
+	
+	public function getId() {
+		return $this->getProjectId();
 	}
 
 
@@ -132,5 +147,40 @@ class Project
     public function getCompleted()
     {
         return $this->completed;
+    }
+
+    /**
+     * Add users
+     *
+     * @param \PRO4\UserBundle\Entity\User $users
+     * @return Project
+     */
+    public function addUser(\PRO4\UserBundle\Entity\User $user)
+    {
+    	$user->addProject($this);
+        $this->users[] = $user;
+    
+        return $this;
+    }
+
+    /**
+     * Remove users
+     *
+     * @param \PRO4\UserBundle\Entity\User $users
+     */
+    public function removeUser(\PRO4\UserBundle\Entity\User $user)
+    {
+    	$user->removeProject($this);
+        $this->users->removeElement($user);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUsers()
+    {
+        return $this->users;
     }
 }

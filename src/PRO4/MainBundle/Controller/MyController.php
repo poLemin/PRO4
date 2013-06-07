@@ -7,6 +7,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class MyController extends Controller {
+	public function getUser() {
+		return $this->get('security.context')->getToken()->getUser();
+	}
 
     public function render($view, array $parameters = array(), Response $response = null) {
     	

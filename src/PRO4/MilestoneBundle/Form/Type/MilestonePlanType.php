@@ -1,5 +1,5 @@
 <?php
-namespace PRO4\ProjectBundle\Form\Type;
+namespace PRO4\MilestoneBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,7 +18,7 @@ class MilestonePlanType extends AbstractType {
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(array (
-			'data_class' => 'PRO4\ProjectBundle\Entity\MilestonePlan',
+			'data_class' => 'PRO4\MilestoneBundle\Entity\MilestonePlan',
 		));
 	}
 }

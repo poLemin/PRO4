@@ -3,11 +3,9 @@
 namespace PRO4\UserBundle\Entity;
 
 use Symfony\Component\Security\Core\User\UserInterface;
-
 use Doctrine\ORM\Mapping as ORM;
-
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -55,12 +53,22 @@ class User implements UserInterface
      * @ORM\Column(name="activated", type="boolean")
      */
     private $activated;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="\PRO4\ProjectBundle\Entity\Project", mappedBy="users")
+     * @ORM\JoinTable(name="user_in_project",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="user_id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="project_id", referencedColumnName="project_id")}
+     *      )
+     */
+    private $projects;
 
 
 	public function __construct()
     {
         $this->activated = true;
         $this->salt = md5(uniqid(null, true));
+        $this->projects = new ArrayCollection();
     }
 
     /**
@@ -236,5 +244,40 @@ class User implements UserInterface
     public function getActivated()
     {
         return $this->activated;
+    }
+
+    /**
+     * Add projects
+     *
+     * @param \PRO4\ProjectBundle\Entity\Project $projects
+     * @return User
+     */
+    public function addProject(\PRO4\ProjectBundle\Entity\Project $project)
+    {
+    	$project->addUser($this);
+        $this->projects[] = $project;
+    
+        return $this;
+    }
+
+    /**
+     * Remove projects
+     *
+     * @param \PRO4\ProjectBundle\Entity\Project $projects
+     */
+    public function removeProject(\PRO4\ProjectBundle\Entity\Project $project)
+    {
+    	$project->removeUser($this);
+        $this->projects->removeElement($project);
+    }
+
+    /**
+     * Get projects
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProjects()
+    {
+        return $this->projects;
     }
 }

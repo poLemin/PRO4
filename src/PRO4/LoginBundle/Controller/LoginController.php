@@ -12,12 +12,16 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-use PRO4\LoginBundle\Entity\User;
+use PRO4\UserBundle\Entity\User;
 
 class LoginController extends MyController {
-
-    public function indexAction(Request $request) {	
-		return $this->redirect($this->generateUrl("login"));
+	
+    public function indexAction(Request $request) {
+    	if($this->getUser()) {
+    		return $this->redirect($this->generateUrl("project"));
+    	} else {
+    		return $this->redirect($this->generateUrl("login"));
+    	}
     }
 	
 	public function logoutAction() {
@@ -25,6 +29,9 @@ class LoginController extends MyController {
 	}
 	
 	public function loginAction()	{
+		if($this->getUser()) {
+    		return $this->redirect($this->generateUrl("project"));
+    	}
 		$request = $this->getRequest();
         $session = $request->getSession();
 
@@ -50,6 +57,9 @@ class LoginController extends MyController {
 	}
 	
 	public function registerAction(Request $request) {
+		if($this->getUser()) {
+    		return $this->redirect($this->generateUrl("project"));
+    	}
 		$form = $this->createFormBuilder()
 			->add('email', 'email', array(
 			   'constraints' => array(new NotBlank(), new Email()),

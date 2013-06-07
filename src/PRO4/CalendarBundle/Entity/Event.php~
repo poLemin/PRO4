@@ -52,7 +52,7 @@ class Event
     /**
      * @var \Department
      *
-     * @ORM\ManyToOne(targetEntity="Department")
+     * @ORM\ManyToOne(targetEntity="PRO4\ProjectBundle\Entity\Department")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="department_id", referencedColumnName="department_id")
      * })

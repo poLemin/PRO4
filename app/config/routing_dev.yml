@@ -1,32 +1,32 @@
 homepage:
     pattern: /
-    defaults: { _controller: PRO4LoginBundle:Login:index}
+    defaults: { _controller: PRO4LoginBundle:Login:index }
 
 login:
-    pattern:  /login
-    defaults: { _controller: PRO4LoginBundle:Login:login}
+    pattern:  /login/
+    defaults: { _controller: PRO4LoginBundle:Login:login }
 
 login_check:
-    pattern: /loginCheck
+    pattern: /loginCheck/
 
 register:
-    pattern:  /register
+    pattern:  /register/
     defaults: { _controller: PRO4LoginBundle:Login:register }
 
 logout:
-    pattern: /logout
+    pattern: /logout/
     defaults: { _controller: PRO4LoginBundle:Login:logout }
 
 project:
-    pattern: /app/project
-    defaults: { _controller: PRO4ProjectBundle:Default:index }
+    pattern: /app/project/
+    defaults: { _controller: PRO4ProjectBundle:Project:index }
 
 project_form:
-    pattern: /app/project/add
-    defaults: { _controller: PRO4ProjectBundle:Default:projectForm }
+    pattern: /app/project/add/
+    defaults: { _controller: PRO4ProjectBundle:Project:projectForm }
 
 milestone_plan_form:
-    pattern: /app/project/milestone_plan
+    pattern: /app/project/{id}/milestone/milestone_plan/
     defaults: { _controller: PRO4MilestoneBundle:MilestonePlan:index }
 
 _wdt:
