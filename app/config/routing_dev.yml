@@ -14,16 +14,28 @@ register:
     defaults: { _controller: PRO4LoginBundle:Login:register }
 
 logout:
-    pattern: /logout/
+    pattern: /logout
     defaults: { _controller: PRO4LoginBundle:Login:logout }
 
 project:
     pattern: /app/project/
     defaults: { _controller: PRO4ProjectBundle:Project:index }
 
+project_detail:
+    pattern: /app/project/{id}
+    defaults: { _controller: PRO4ProjectBundle:Project:projectDetail }
+    
+edit_project_detail:
+    pattern: /app/project/{id}/edit
+    defaults: { _controller: PRO4ProjectBundle:Project:editProjectDetail }
+
 project_form:
     pattern: /app/project/add/
     defaults: { _controller: PRO4ProjectBundle:Project:projectForm }
+    
+users_in_project:
+    pattern: /app/project/{id}/users
+    defaults: { _controller: PRO4ProjectBundle:UserInProject:index }
 
 milestone_plan_form:
     pattern: /app/project/{id}/milestone/milestone_plan/

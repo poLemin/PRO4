@@ -28,4 +28,24 @@ class MyController extends Controller {
 		
 		return parent::render($view, $parameters, $response);
     }
+    
+    public function isAuthenticatedFully() {
+    	return $this->get('security.context')->isGranted("IS_AUTHENTICATED_FULLY");
+    }
+    
+    public function find($class, $id) {
+    	$em = $this->getDoctrine()->getManager();
+   		$object = $em->find($class, $id);
+		if (!$object) {
+	        throw new AccessDeniedException();
+	    }
+	    
+	    return $object;
+    }
+    
+    public function checkPermission($permission, $object) {
+    	if($this->get('security.context')->isGranted($permission, $object) === FALSE) {
+   			throw new AccessDeniedException();
+   		}
+    }
 }

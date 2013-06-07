@@ -3,7 +3,11 @@
 {% block content %}
 	{% for project in projects %}
 		<div>
-			<strong>{{ project.name }}</strong>
+			<strong>
+				<a href="{{ path('project_detail', {'id': project.id}) }}">
+        			{{ project.name }}
+    			</a>
+    		</strong>
 			<div>
 				{{ project.description }}
 			</div>

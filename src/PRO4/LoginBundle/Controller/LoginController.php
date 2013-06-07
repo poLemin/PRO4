@@ -3,7 +3,6 @@
 namespace PRO4\LoginBundle\Controller;
 
 use PRO4\MainBundle\Controller\MyController;
-//use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,14 +12,15 @@ use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 use PRO4\UserBundle\Entity\User;
+use PRO4\UserBundle\Form\Type\UserType;
 
 class LoginController extends MyController {
 	
     public function indexAction(Request $request) {
-    	if($this->getUser()) {
+    	if($this->isAuthenticatedFully()) {
     		return $this->redirect($this->generateUrl("project"));
     	} else {
-    		return $this->redirect($this->generateUrl("login"));
+    		return $this->loginAction();
     	}
     }
 	
@@ -29,9 +29,10 @@ class LoginController extends MyController {
 	}
 	
 	public function loginAction()	{
-		if($this->getUser()) {
+		if($this->isAuthenticatedFully()) {
     		return $this->redirect($this->generateUrl("project"));
     	}
+    	
 		$request = $this->getRequest();
         $session = $request->getSession();
 
@@ -60,28 +61,13 @@ class LoginController extends MyController {
 		if($this->getUser()) {
     		return $this->redirect($this->generateUrl("project"));
     	}
-		$form = $this->createFormBuilder()
-			->add('email', 'email', array(
-			   'constraints' => array(new NotBlank(), new Email()),
-			   'label' => "Email")
-			)
-			->add('password', 'repeated', array(
-				'type' => 'password',
-				'invalid_message' => 'The password fields must match.',
-				'constraints' => new Length(array('min' => 8, 'max' => 30)),
-				'required' => true,
-				'options' => array(
-				   'label' => "Password"
-				)
-			))->getForm();
+    	
+    	$user = new User();
+		$form = $this->createForm(new UserType(), $user, array("register" => true));
 	
 		if ($request->isMethod('POST')) {
             $form->bind($request);
-			if($form->isValid()) {
-				$data = $form->getData();
-				$user = new User();
-				$user->setEMail($data["email"]);
-				
+			if($form->isValid()) {				
 				$factory = $this->get('security.encoder_factory');
 				$encoder = $factory->getEncoder($user);
 				$password = $encoder->encodePassword($data["password"], $user->getSalt());

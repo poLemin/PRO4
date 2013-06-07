@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 
 {% block content %}
-	<h1>Add Project</h1>
+	<h1>{{ action }} Project</h1>
 	
 	<form method="post">
 		<fieldset>
@@ -13,7 +13,10 @@
 			</ul>
 		</fieldset>
 		{{ form_widget(form) }}
-		<button type="submit">Save Project</button> <button type="reset">Clear fields</button>
+		
+		{% if showButton is not defined or showButton %}
+			<button type="submit">{{ action }} Project</button>
+		{% endif %}
 	</form>
 		
 {% endblock %}

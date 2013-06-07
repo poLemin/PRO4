@@ -70,6 +70,46 @@ class ProjectController extends MyController {
 	        }
 	    }
     	
-   		return $this->render('PRO4ProjectBundle:Project:projectForm.html.twig', array("form" => $form->createView()));
+   		return $this->render('PRO4ProjectBundle:Project:projectForm.html.twig', array("form" => $form->createView(), "action" => "Add"));
+   	}
+   	
+   	public function projectDetailAction(Request $request, $id) {
+   		$project = $this->find("PRO4\ProjectBundle\Entity\Project", $id);
+   		$this->checkPermission("VIEW", $project);
+   		
+    	$form = $this->createForm(new ProjectType(), $project, array("attr" => array('disabled' => true)));
+    	
+        $showButton = $this->get('security.context')->isGranted('EDIT', $project);
+    	
+    	if ($request->isMethod('POST')) {
+    		return $this->redirect($this->generateUrl("edit_project_detail", array("id" => $project->getId())));
+	    }
+    	
+    	return $this->render('PRO4ProjectBundle:Project:projectForm.html.twig', array("form" => $form->createView(), "showButton" => $showButton, "action" => "Edit"));
+   	}
+   	
+   	public function editProjectDetailAction(Request $request, $id) {
+   		$project = $this->find("PRO4\ProjectBundle\Entity\Project", $id);
+   		$this->checkPermission("EDIT", $project);
+   		
+   		$form = $this->createForm(new ProjectType(), $project);
+   		
+   		if ($request->isMethod('POST')) {
+	        $form->bind($request);
+	   		if ($form->isValid()) {
+	        	$em = $this->getDoctrine()->getManager();
+				$em->persist($project);
+				$em->flush();
+				
+				$this->get('session')->getFlashBag()->add(
+				    'success',
+				    'Project was successfully edited.'
+				);
+				
+				return $this->redirect($this->generateUrl("project_detail", array("id" => $project->getId())));
+	        }
+   		}
+
+   		return $this->render("PRO4ProjectBundle:Project:projectForm.html.twig", array("form" => $form->createView(), "action" => "Edit"));
    	}
 }

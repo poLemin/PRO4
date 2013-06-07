@@ -4,7 +4,7 @@ namespace PRO4\UserBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class DefaultController extends Controller
+class UserController extends Controller
 {
     public function indexAction($name)
     {

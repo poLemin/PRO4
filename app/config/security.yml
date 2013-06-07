@@ -17,7 +17,7 @@ security:
     providers:
         main:
             entity: { class: PRO4UserBundle:User, property: eMail }
-
+            
     firewalls:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
@@ -38,11 +38,11 @@ security:
                 
                 username_parameter: email
                 password_parameter: password
-            logout: ~
+            logout:
+              path: /logout
+              target: /
             anonymous: ~
             http_basic: ~
-            #    realm: "App"
 
     access_control:
-        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         - { path: ^/app, roles: ROLE_USER }
