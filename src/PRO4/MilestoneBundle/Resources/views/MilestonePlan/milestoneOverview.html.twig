@@ -1,0 +1,16 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+	<h1>Milestone Overview</h1>
+
+	<div id="milestones">
+	<div id="start">project start: {{ milestonePlan.startDate|date('Y-m-d') }}</div>
+	{% for milestone in milestones %}
+		<div class="milestone">
+			start: {{ milestone.startDate|date('Y-m-d') }}; end: {{ milestone.endDate|date('Y-m-d') }}
+		</div>
+	{% endfor %}
+	<div id="end">project end: {{ milestonePlan.endDate|date('Y-m-d') }}</div>
+	</div>
+		
+{% endblock %}

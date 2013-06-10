@@ -1,0 +1,23 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+	<h1>Users in Project</h1>
+	<div id="users">
+	
+	{% if showForm is not defined or showForm %}
+			{% block form %}{% endblock %}
+	{% endif %}
+	
+	<h3>Users</h3>
+	
+	{% if users is empty %}
+		<strong>No users yet!</strong>
+	{% endif %}
+	{% for user in users %}
+		<div>
+        	{{ user.eMail }}
+		<div>
+	{% endfor %}
+	</div>
+		
+{% endblock %}
