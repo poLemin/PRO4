@@ -17,9 +17,14 @@ logout:
     pattern: /logout
     defaults: { _controller: PRO4LoginBundle:Login:logout }
 
+
 project:
     pattern: /app/project/
     defaults: { _controller: PRO4ProjectBundle:Project:index }
+    
+add_project:
+    pattern: /app/project/add/
+    defaults: { _controller: PRO4ProjectBundle:Project:addProject }
 
 project_detail:
     pattern: /app/project/{id}
@@ -28,18 +33,23 @@ project_detail:
 edit_project_detail:
     pattern: /app/project/{id}/edit
     defaults: { _controller: PRO4ProjectBundle:Project:editProjectDetail }
-
-project_form:
-    pattern: /app/project/add/
-    defaults: { _controller: PRO4ProjectBundle:Project:projectForm }
     
 users_in_project:
     pattern: /app/project/{id}/users
-    defaults: { _controller: PRO4ProjectBundle:UserInProject:index }
+    defaults: { _controller: PRO4ProjectBundle:UsersInProject:index }
 
-milestone_plan_form:
-    pattern: /app/project/{id}/milestone/milestone_plan/
+
+milestone_plan:
+    pattern: /app/project/{id}/milestone_plan/
     defaults: { _controller: PRO4MilestoneBundle:MilestonePlan:index }
+    
+milestone_overview:
+    pattern: /app/project/{id}/milestone_plan/overview
+    defaults: { _controller: PRO4MilestoneBundle:MilestonePlan:overview }
+
+edit_milestone_plan:
+    pattern: /app/project/{id}/milestone_plan/edit
+    defaults: { _controller: PRO4MilestoneBundle:MilestonePlan:editMilestonePlan }
 
 _wdt:
     resource: "@WebProfilerBundle/Resources/config/routing/wdt.xml"

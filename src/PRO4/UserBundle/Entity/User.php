@@ -13,7 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="user")
  * @ORM\Entity
- * @UniqueEntity("email")
+ * @UniqueEntity("eMail")
  */
 class User implements UserInterface
 {
@@ -27,7 +27,7 @@ class User implements UserInterface
     private $userId;
 
     /**
-     * @var string $email
+     * @var string $eMail
      *
      * @ORM\Column(name="eMail", type="string", length=100, unique=true, nullable=false)
      * 

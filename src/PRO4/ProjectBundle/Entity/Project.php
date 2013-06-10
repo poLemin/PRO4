@@ -157,9 +157,11 @@ class Project
      */
     public function addUser(\PRO4\UserBundle\Entity\User $user)
     {
-    	$user->addProject($this);
-        $this->users[] = $user;
-    
+    	if(!$this->users->contains($user)) {
+    		$user->addProject($this);
+        	$this->users[] = $user;
+    	}
+    	
         return $this;
     }
 

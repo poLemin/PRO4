@@ -36,7 +36,7 @@ class ProjectController extends MyController {
     	return $this->render("PRO4ProjectBundle:Project:overview.html.twig", array("projects" => $projects));
    	}
    	
-   	public function projectFormAction(Request $request) {
+   	public function addProjectAction(Request $request) {
    		$project = new Project();
     	$form = $this->createForm(new ProjectType(), $project);
     	
@@ -48,25 +48,14 @@ class ProjectController extends MyController {
    				$em->persist($project);
     			$em->flush();
     			
-    			// creating the ACL
-	            $aclProvider = $this->get('security.acl.provider');
-	            $objectIdentity = ObjectIdentity::fromDomainObject($project);
-	            $acl = $aclProvider->createAcl($objectIdentity);
-	
-	            // retrieving the security identity of the currently logged-in user
-	            $securityContext = $this->get('security.context');
-	            $securityIdentity = UserSecurityIdentity::fromAccount($this->getUser());
-	
-	            // grant owner access
-	            $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OPERATOR);
-	            $aclProvider->updateAcl($acl);
+    			$this->addPermission($project, MaskBuilder::MASK_OPERATOR, $this->getUser());
     			
     			$this->get('session')->getFlashBag()->add(
 				    'success',
 				    'You successfully created a project. Now you can add beginning and end date to it!'
 				);
     			
-    			return $this->redirect($this->generateUrl("milestone_plan_form", array("id" => $project->getId())));
+    			return $this->redirect($this->generateUrl("milestone_plan", array("id" => $project->getId())));
 	        }
 	    }
     	
@@ -79,7 +68,7 @@ class ProjectController extends MyController {
    		
     	$form = $this->createForm(new ProjectType(), $project, array("attr" => array('disabled' => true)));
     	
-        $showButton = $this->get('security.context')->isGranted('EDIT', $project);
+        $showButton = $this->hasPermission('EDIT', $project);
     	
     	if ($request->isMethod('POST')) {
     		return $this->redirect($this->generateUrl("edit_project_detail", array("id" => $project->getId())));

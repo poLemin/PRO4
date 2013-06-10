@@ -2,6 +2,7 @@
 
 namespace PRO4\MilestoneBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -44,8 +45,15 @@ class MilestonePlan
      * })
      */
     private $project;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Milestone", mappedBy="milestonePlan")
+     **/
+    private $milestones;
 
-
+	public function __construct() {
+        $this->milestones = new ArrayCollection();
+    }
 
     /**
      * Get milestonePlanId

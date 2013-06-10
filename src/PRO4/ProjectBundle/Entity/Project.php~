@@ -157,8 +157,11 @@ class Project
      */
     public function addUser(\PRO4\UserBundle\Entity\User $user)
     {
-        $this->users[] = $user;
-    
+    	if(!$this->users->contains($user)) {
+    		$user->addProject($this);
+        	$this->users[] = $user;
+    	}
+    	
         return $this;
     }
 
@@ -169,6 +172,7 @@ class Project
      */
     public function removeUser(\PRO4\UserBundle\Entity\User $user)
     {
+    	$user->removeProject($this);
         $this->users->removeElement($user);
     }
 

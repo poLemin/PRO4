@@ -2,6 +2,7 @@
 
 namespace PRO4\MilestoneBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -44,8 +45,15 @@ class MilestonePlan
      * })
      */
     private $project;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Milestone", mappedBy="milestonePlan")
+     **/
+    private $milestones;
 
-
+	public function __construct() {
+        $this->milestones = new ArrayCollection();
+    }
 
     /**
      * Get milestonePlanId
@@ -124,5 +132,38 @@ class MilestonePlan
     public function getProject()
     {
         return $this->project;
+    }
+
+    /**
+     * Add milestone
+     *
+     * @param \PRO4\MilestoneBundle\Entity\Milestone $milestone
+     * @return MilestonePlan
+     */
+    public function addMilestone(\PRO4\MilestoneBundle\Entity\Milestone $milestone)
+    {
+        $this->milestones[] = $milestone;
+    
+        return $this;
+    }
+
+    /**
+     * Remove milestone
+     *
+     * @param \PRO4\MilestoneBundle\Entity\Milestone $milestone
+     */
+    public function removeMilestone(\PRO4\MilestoneBundle\Entity\Milestone $milestone)
+    {
+        $this->milestones->removeElement($milestone);
+    }
+
+    /**
+     * Get milestones
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMilestones()
+    {
+        return $this->milestones;
     }
 }

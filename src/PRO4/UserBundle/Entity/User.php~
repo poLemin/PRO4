@@ -13,7 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="user")
  * @ORM\Entity
- * @UniqueEntity("email")
+ * @UniqueEntity("eMail")
  */
 class User implements UserInterface
 {
@@ -27,7 +27,7 @@ class User implements UserInterface
     private $userId;
 
     /**
-     * @var string $email
+     * @var string $eMail
      *
      * @ORM\Column(name="eMail", type="string", length=100, unique=true, nullable=false)
      * 
@@ -254,7 +254,6 @@ class User implements UserInterface
      */
     public function addProject(\PRO4\ProjectBundle\Entity\Project $project)
     {
-    	$project->addUser($this);
         $this->projects[] = $project;
     
         return $this;
@@ -267,7 +266,6 @@ class User implements UserInterface
      */
     public function removeProject(\PRO4\ProjectBundle\Entity\Project $project)
     {
-    	$project->removeUser($this);
         $this->projects->removeElement($project);
     }
 

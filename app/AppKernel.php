@@ -27,6 +27,7 @@ class AppKernel extends Kernel
             new PRO4\ToDoListBundle\PRO4ToDoListBundle(),
             new PRO4\CalendarBundle\PRO4CalendarBundle(),
             new PRO4\FileBundle\PRO4FileBundle(),
+            new Oh\ColorPickerTypeBundle\ColorPickerTypeBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -9,21 +9,25 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class UserType extends AbstractType {
 	
 	public function buildForm(FormBuilderInterface $builder, array $options) {	
-		$builder->add("email", "email", array("label" => "Email"));
-			
-		$builder->add("password", "repeated",
-			array(
-				"type" => "password",
-				"invalid_message" => "The password fields must match.",
-				"options" => array(
-				   "label" => "Password"
-				)
-			)
-		);
+		$builder->add("eMail", "email", array("label" => "Email"));
 		
-		if(!isset($options["register"]) || !$options["register"]]) {
+		if(!isset($options["attr"]["eMailOnly"]) || !$options["attr"]["eMailOnly"]) {
+			$builder->add("password", "repeated",
+				array(
+					"type" => "password",
+					"invalid_message" => "The password fields must match.",
+					"options" => array(
+					   "label" => "Password"
+					)
+				)
+			);
+			
+			if(!isset($options["attr"]["register"]) || !$options["attr"]["register"]) {
 			 $builder->add("oldPassword", "password", array("label" => "Old Password", "constraints" => array(new UserPassword())));
+			}
 		}
+		
+		
 	}
 
 	public function getName() {
@@ -32,7 +36,7 @@ class UserType extends AbstractType {
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(array (
-			"data_class" => "PRO4\LoginBundle\Entity\User",			
+			"data_class" => "PRO4\UserBundle\Entity\User",			
 		));
 	}
 }

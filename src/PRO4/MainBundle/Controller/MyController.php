@@ -6,6 +6,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
+use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
+use Symfony\Component\Security\Acl\Permission\MaskBuilder;
+use Symfony\Component\Security\Acl\Exception\AclNotFoundException;
+
 class MyController extends Controller {
 	public function getUser() {
 		return $this->get('security.context')->getToken()->getUser();
@@ -43,9 +49,29 @@ class MyController extends Controller {
 	    return $object;
     }
     
+    public function addPermission($object, $mask, $user) {
+    	$aclProvider = $this->get('security.acl.provider');
+    	$objectIdentity = ObjectIdentity::fromDomainObject($object);
+    	
+    	try {
+		    $acl = $aclProvider->findAcl($objectIdentity);
+		} catch (AclNotFoundException $e) {
+		    $acl = $aclProvider->createAcl($objectIdentity);
+		}
+
+		$securityIdentity = UserSecurityIdentity::fromAccount($user);
+        $acl->insertObjectAce($securityIdentity, $mask);
+        
+        $aclProvider->updateAcl($acl);
+    }
+    
     public function checkPermission($permission, $object) {
-    	if($this->get('security.context')->isGranted($permission, $object) === FALSE) {
+    	if($this->hasPermission($permission, $object) === FALSE) {
    			throw new AccessDeniedException();
    		}
+    }
+    
+    public function hasPermission($permission, $object) {
+    	return $this->get('security.context')->isGranted($permission, $object);
     }
 }

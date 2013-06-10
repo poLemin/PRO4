@@ -58,19 +58,19 @@ class LoginController extends MyController {
 	}
 	
 	public function registerAction(Request $request) {
-		if($this->getUser()) {
+		if($this->isAuthenticatedFully()) {
     		return $this->redirect($this->generateUrl("project"));
     	}
     	
     	$user = new User();
-		$form = $this->createForm(new UserType(), $user, array("register" => true));
+		$form = $this->createForm(new UserType(), $user, array("attr" => array("register" => true)));
 	
 		if ($request->isMethod('POST')) {
             $form->bind($request);
-			if($form->isValid()) {				
+			if($form->isValid()) {			
 				$factory = $this->get('security.encoder_factory');
 				$encoder = $factory->getEncoder($user);
-				$password = $encoder->encodePassword($data["password"], $user->getSalt());
+				$password = $encoder->encodePassword($user->getPassword(), $user->getSalt());
 				$user->setPassword($password);
 				
 				$em = $this->getDoctrine()->getManager();
