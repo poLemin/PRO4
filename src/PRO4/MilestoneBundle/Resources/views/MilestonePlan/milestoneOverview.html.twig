@@ -4,6 +4,7 @@
 	<h1>Milestone Overview</h1>
 
 	<div id="milestones">
+	<a href="{{ path('add_milestone', {'projectId': milestonePlan.project.projectId, 'milestonePlanId': milestonePlan.milestonePlanId}) }}"><button>Add a milestone</button></a>
 	<div id="start">project start: {{ milestonePlan.startDate|date('Y-m-d') }}</div>
 	{% for milestone in milestones %}
 		<div class="milestone">

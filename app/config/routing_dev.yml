@@ -50,6 +50,10 @@ milestone_overview:
 edit_milestone_plan:
     pattern: /app/project/{id}/milestone_plan/edit
     defaults: { _controller: PRO4MilestoneBundle:MilestonePlan:editMilestonePlan }
+    
+add_milestone:
+    pattern: /app/project/{projectId}/milestone_plan/{milestonePlanId}/milestone/add
+    defaults: { _controller: PRO4MilestoneBundle:Milestone:addMilestone }
 
 _wdt:
     resource: "@WebProfilerBundle/Resources/config/routing/wdt.xml"

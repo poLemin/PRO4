@@ -18,7 +18,6 @@
         "sensio/generator-bundle": "2.2.*",
         "jms/security-extra-bundle": "1.4.*",
         "jms/di-extra-bundle": "1.3.*"
-		"oh/color-picker-type-bundle": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [
@@ -44,17 +43,5 @@
         "branch-alias": {
             "dev-master": "2.2-dev"
         }
-    },
-	"repositories" : [{
-        "type": "package",
-        "package": {
-            "version": "master",
-            "name": "tkrotoff/jquery-simplecolorpicker",
-            "source": {
-                "url": "https://github.com/tkrotoff/jquery-simplecolorpicker.git",
-                "type": "git",
-                "reference": "master"
-            }
-        }
-	}]
+    }
 }

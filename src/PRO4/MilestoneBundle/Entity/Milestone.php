@@ -3,6 +3,7 @@
 namespace PRO4\MilestoneBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Milestone
@@ -25,6 +26,9 @@ class Milestone
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=40, nullable=false)
+     * 
+     * @Assert\NotBlank()
+     * @Assert\Length(min = "3", max = "40")
      */
     private $name;
 
@@ -32,6 +36,8 @@ class Milestone
      * @var \DateTime
      *
      * @ORM\Column(name="start_date", type="date", nullable=false)
+     * 
+     * @Assert\NotBlank()
      */
     private $startDate;
 
@@ -39,6 +45,8 @@ class Milestone
      * @var \DateTime
      *
      * @ORM\Column(name="end_date", type="date", nullable=false)
+     * 
+     * @Assert\NotBlank()
      */
     private $endDate;
 
@@ -46,6 +54,9 @@ class Milestone
      * @var string
      *
      * @ORM\Column(name="color", type="string", length=6, nullable=false)
+     * 
+     * @Assert\NotBlank()
+     * @Assert\Length(min = "6", max = "6")
      */
     private $color;
 
