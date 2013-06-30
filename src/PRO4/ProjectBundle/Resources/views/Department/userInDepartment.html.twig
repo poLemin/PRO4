@@ -1,0 +1,31 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+	<h1>Users in {{ department.name }}</h1>
+	<div id="users">
+	
+	{% if isAdmin is not defined or isAdmin %}
+			{% block form %}{% endblock %}
+	{% endif %}
+	
+	<h3>Users</h3>
+	
+	{% if users is empty %}
+		No Users added to this department yet. Please add users or ask your administrator to do so.
+	{% endif %}
+	
+	{% for user in users %}
+		<div>
+			{{ user.name }}
+			
+			
+        	{% if isAdmin %}
+        		<a href="{{ path("remove_department", {"projectId" : project.projectId, "departmentId" : department.departmentId}) }}">remove</a>
+        		| <a href="{{ path("edit_department", {"projectId" : project.projectId, "departmentId" : department.departmentId}) }}">edit</a>
+			{% endif %}
+			
+		<div>
+	{% endfor %}
+	</div>
+		
+{% endblock %}

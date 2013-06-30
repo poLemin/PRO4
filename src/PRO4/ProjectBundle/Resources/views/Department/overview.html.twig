@@ -1,0 +1,31 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+	<h1>Departments</h1>
+	<div id="departments">
+	
+	{% if isAdmin is not defined or isAdmin %}
+			{% block form %}{% endblock %}
+	{% endif %}
+	
+	<h3>Departments</h3>
+	
+	{% if departments is empty %}
+		There are no departments yet! Please add one or ask the administrator to do so!
+	{% endif %}
+	{% for department in departments %}
+		<div>
+			{{ department.color}}
+			<a href="{{ path("user_in_department", {"projectId" : project.projectId, "departmentId" : department.departmentId}) }}">{{ department.name }}</a>
+			
+			
+        	{% if isAdmin %}
+        		<a href="{{ path("remove_department", {"projectId" : project.projectId, "departmentId" : department.departmentId}) }}">remove</a>
+        		| <a href="{{ path("edit_department", {"projectId" : project.projectId, "departmentId" : department.departmentId}) }}">edit</a>
+			{% endif %}
+			
+		<div>
+	{% endfor %}
+	</div>
+		
+{% endblock %}
