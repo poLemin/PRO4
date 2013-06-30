@@ -4,6 +4,7 @@ namespace PRO4\ProjectBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Department
@@ -26,6 +27,8 @@ class Department
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=40, nullable=false)
+     * @Assert\NotBlank()
+     * @Assert\Length(min = "3", max = "40")
      */
     private $name;
 
@@ -33,13 +36,16 @@ class Department
      * @var string
      *
      * @ORM\Column(name="color", type="string", length=6, nullable=false)
+     * 
+     * @Assert\NotBlank()
+     * @Assert\Length(min = "6", max = "6")
      */
     private $color;
 
     /**
      * @var \Project
      *
-     * @ORM\ManyToOne(targetEntity="Project")
+     * @ORM\ManyToOne(targetEntity="Project", inversedBy="departments")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="project_id", referencedColumnName="project_id", nullable=false)
      * })
@@ -122,7 +128,7 @@ class Department
      * @param \PRO4\ProjectBundle\Entity\Project $project
      * @return Department
      */
-    public function setProject(\PRO4\LoginBundle\Entity\Project $project = null)
+    public function setProject(\PRO4\ProjectBundle\Entity\Project $project = null)
     {
         $this->project = $project;
     

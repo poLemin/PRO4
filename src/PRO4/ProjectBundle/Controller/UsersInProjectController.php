@@ -19,6 +19,7 @@ use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UsersInProjectController extends MyController {
+	
     public function indexAction(Request $request, $id) {
     	$project = $this->find("PRO4\ProjectBundle\Entity\Project", $id);
     	$this->checkPermission("VIEW", $project);
@@ -31,7 +32,7 @@ class UsersInProjectController extends MyController {
 			))
 			->getForm();
     	
-    	$showForm = $this->get('security.context')->isGranted('EDIT', $project);
+    	$isAdmin = $this->hasPermission("EDIT", $project);
 
     	
     	if ($request->isMethod('POST')) {
@@ -65,90 +66,35 @@ class UsersInProjectController extends MyController {
     			
     			$this->get('session')->getFlashBag()->add(
 				    'success',
-				    'You successfully added ' . $user->getEmail() . ' to project!'
+				    'You successfully added ' . $user->getEmail() . ' to this project!'
 				);
 				
 				return $this->redirect($this->generateUrl("users_in_project", array("id" => $project->getId())));
 	        }
 	    }
     	
-    	return $this->render("PRO4ProjectBundle:UsersInProject:userForm.html.twig", array("form" => $form->createView(), "showForm" => $showForm, "users" => $users));
+    	return $this->render("PRO4ProjectBundle:UsersInProject:userForm.html.twig", array("form" => $form->createView(), "isAdmin" => $isAdmin, "project" => $project, "users" => $users));
     }
    	
-   	public function projectFormAction(Request $request) {
-   		$project = new Project();
-    	$form = $this->createForm(new ProjectType(), $project);
+   	public function removeAction(Request $request, $projectId, $userId) {
+   		$project = $this->find("PRO4\ProjectBundle\Entity\Project", $projectId);
+    	$this->checkPermission("EDIT", $project);
+    	$user = $this->find("PRO4\UserBundle\Entity\User", $userId);
+    	if($this->getUser()->getUserId() == $userId) {
+    		throw new InvalidArgumentException();
+    	}
+    	$project->removeUser($user);
+    	$this->removePermissions($project, $user);
+	            
+        $em = $this->getDoctrine()->getManager();
+		$em->persist($project);
+		$em->flush();
     	
-    	if ($request->isMethod('POST')) {
-	        $form->bind($request);
-	        if ($form->isValid()) {
-	        	$project->addUser($this->getUser());
-	        	$em = $this->getDoctrine()->getManager();
-   				$em->persist($project);
-    			$em->flush();
-    			
-    			// creating the ACL
-	            $aclProvider = $this->get('security.acl.provider');
-	            $objectIdentity = ObjectIdentity::fromDomainObject($project);
-	            $acl = $aclProvider->createAcl($objectIdentity);
-	
-	            // retrieving the security identity of the currently logged-in user
-	            $securityContext = $this->get('security.context');
-	            $securityIdentity = UserSecurityIdentity::fromAccount($this->getUser());
-	
-	            // grant owner access
-	            $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OPERATOR);
-	            $aclProvider->updateAcl($acl);
-    			
-    			$this->get('session')->getFlashBag()->add(
+    	$this->get('session')->getFlashBag()->add(
 				    'success',
-				    'You successfully created a project. Now you can add beginning and end date to it!'
-				);
-    			
-    			return $this->redirect($this->generateUrl("milestone_plan_form", array("id" => $project->getId())));
-	        }
-	    }
-    	
-   		return $this->render('PRO4ProjectBundle:Project:projectForm.html.twig', array("form" => $form->createView(), "action" => "Add"));
-   	}
-   	
-   	public function projectDetailAction(Request $request, $id) {
-   		$project = $this->find("PRO4\ProjectBundle\Entity\Project", $id);
-   		$this->checkPermission("VIEW", $project);
-   		
-    	$form = $this->createForm(new ProjectType(), $project, array("attr" => array('disabled' => true)));
-    	
-        $showButton = $this->get('security.context')->isGranted('EDIT', $project);
-    	
-    	if ($request->isMethod('POST')) {
-    		return $this->redirect($this->generateUrl("edit_project_detail", array("id" => $project->getId())));
-	    }
-    	
-    	return $this->render('PRO4ProjectBundle:Project:projectForm.html.twig', array("form" => $form->createView(), "showButton" => $showButton, "action" => "Edit"));
-   	}
-   	
-   	public function editProjectDetailAction(Request $request, $id) {
-   		$project = $this->find("PRO4\ProjectBundle\Entity\Project", $id);
-   		$this->checkPermission("EDIT", $project);
-   		
-   		$form = $this->createForm(new ProjectType(), $project);
-   		
-   		if ($request->isMethod('POST')) {
-	        $form->bind($request);
-	   		if ($form->isValid()) {
-	        	$em = $this->getDoctrine()->getManager();
-				$em->persist($project);
-				$em->flush();
-				
-				$this->get('session')->getFlashBag()->add(
-				    'success',
-				    'Project was successfully edited.'
+				    'You successfully removed ' . $user->getEmail() . ' from this project!'
 				);
 				
-				return $this->redirect($this->generateUrl("project_detail", array("id" => $project->getId())));
-	        }
-   		}
-
-   		return $this->render("PRO4ProjectBundle:Project:projectForm.html.twig", array("form" => $form->createView(), "action" => "Edit"));
+		return $this->redirect($this->generateUrl("users_in_project", array("id" => $project->getId())));
    	}
 }

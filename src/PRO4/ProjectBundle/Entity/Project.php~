@@ -58,11 +58,18 @@ class Project
      *      )
      */
      private $users;
+     
+    /**
+     * 
+     * @ORM\OneToMany(targetEntity="PRO4\ProjectBundle\Entity\Department", mappedBy="project")
+     **/
+     private $departments;
 
 
 	public function __construct() {
 		$this->completed = false;
 		$this->users = new ArrayCollection();
+		$this->departments = new ArrayCollection();
 	}
 	
 	public function getId() {

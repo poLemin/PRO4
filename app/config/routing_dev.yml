@@ -34,9 +34,30 @@ edit_project_detail:
     pattern: /app/project/{id}/edit
     defaults: { _controller: PRO4ProjectBundle:Project:editProjectDetail }
     
+    
 users_in_project:
     pattern: /app/project/{id}/users
     defaults: { _controller: PRO4ProjectBundle:UsersInProject:index }
+
+remove_user_from_project:
+    pattern: /app/project/{projectId}/users/{userId}/remove
+    defaults: { _controller: PRO4ProjectBundle:UsersInProject:remove }
+
+department_overview:
+    pattern: /app/project/{projectId}/departments
+    defaults: { _controller: PRO4ProjectBundle:Department:index }
+    
+remove_department:
+    pattern: /app/project/{projectId}/departments/{departmentId}/remove
+    defaults: { _controller: PRO4ProjectBundle:Department:remove }
+    
+edit_department:
+    pattern: /app/project/{projectId}/departments/{departmentId}/edit
+    defaults: { _controller: PRO4ProjectBundle:Department:index }
+    
+user_in_department:
+    pattern: /app/project/{projectId}/departments/{departmentId}
+    defaults: { _controller: PRO4ProjectBundle:Department:userInDepartment }
 
 
 milestone_plan:
@@ -53,7 +74,11 @@ edit_milestone_plan:
     
 add_milestone:
     pattern: /app/project/{projectId}/milestone_plan/{milestonePlanId}/milestone/add
-    defaults: { _controller: PRO4MilestoneBundle:Milestone:addMilestone }
+    defaults: { _controller: PRO4MilestoneBundle:Milestone:add }
+
+edit_milestone:
+    pattern: /app/project/{projectId}/milestone_plan/{milestonePlanId}/milestone/{milestoneId}/edit
+    defaults: { _controller: PRO4MilestoneBundle:Milestone:edit }
 
 _wdt:
     resource: "@WebProfilerBundle/Resources/config/routing/wdt.xml"

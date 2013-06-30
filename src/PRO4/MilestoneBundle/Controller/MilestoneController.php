@@ -17,12 +17,15 @@ use Symfony\Component\Security\Acl\Permission\MaskBuilder;
 
 class MilestoneController extends MyController {
    	
-   	public function addMilestoneAction(Request $request, $projectId, $milestonePlanId) {
+   	public function addAction(Request $request, $projectId, $milestonePlanId) {
    		$project = $this->find("PRO4\ProjectBundle\Entity\Project", $projectId);
    		$milestonePlan = $this->find("PRO4\MilestoneBundle\Entity\MilestonePlan", $milestonePlanId);
    		$this->checkPermission("EDIT", $project);
    		
    		$milestone = new Milestone();
+   		$milestone->setMilestonePlan($milestonePlan);
+   		$milestone->setStartDate($milestonePlan->getStartDate());
+   		$milestone->setEndDate($milestonePlan->getEndDate());
    		
    		$form = $this->createForm(new MilestoneType(), $milestone);
    		
@@ -46,25 +49,40 @@ class MilestoneController extends MyController {
 	    return $this->render("PRO4MilestoneBundle:Milestone:milestoneForm.html.twig", array("action" => "Add", "form" => $form->createView()));	
    	}
    	
+   	public function editAction(Request $request, $projectId, $milestonePlanId, $milestoneId) {
+		$project = $this->find("PRO4\ProjectBundle\Entity\Project", $projectId);
+   		$milestonePlan = $this->find("PRO4\MilestoneBundle\Entity\MilestonePlan", $milestonePlanId);
+   		$milestone = $this->find("PRO4\MilestoneBundle\Entity\Milestone", $milestoneId);
+   		
+   		$this->checkPermission("EDIT", $project);
+   		
+   		$form = $this->createForm(new MilestoneType(), $milestone, array("disabled" => true));
+   		
+   		if ($request->isMethod("POST")) {   			
+	        $form->bind($request);
+
+	        if ($form->isValid()) {
+	        	$em = $this->getDoctrine()->getManager();
+   				$em->persist($milestone);
+    			$em->flush();
+			
+    			$this->get('session')->getFlashBag()->add(
+				    'success',
+				    'You successfully added a milestone!'
+				);
+
+				return $this->redirect($this->generateUrl("milestone_plan", array("id" => $projectId)));
+	        }
+	    }
+
+	    return $this->render("PRO4MilestoneBundle:Milestone:milestoneForm.html.twig", array("action" => "Add", "form" => $form->createView()));	
+	}
+   	
    	
    	public function indexAction(Request $request, $id) {   	
    		$project = $this->find("PRO4\ProjectBundle\Entity\Project", $id);
    		$this->checkPermission("VIEW", $project);	
    		return $this->milestonePlanRedirect($id, "milestone_overview", "edit_milestone_plan");
-	}
-	
-	public function overviewAction($id) {
-		$project = $this->find("PRO4\ProjectBundle\Entity\Project", $id);
-   		$this->checkPermission("VIEW", $project);
-   		
-		$milestonePlan = $this->getMilestonePlan($id);
-		if(!$milestonePlan) {
-			return $this->redirect($this->generateUrl("add_milestone_plan", array("id" => $id)));
-		}
-		
-		$milestones = $milestonePlan->getMilestones();
-		
-		return $this->render("PRO4MilestoneBundle:MilestonePlan:milestoneOverview.html.twig", array("milestonePlan" => $milestonePlan, "milestones" => $milestones));
 	}
    	
    	public function editMilestonePlanAction(Request $request, $id) {

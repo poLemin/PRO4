@@ -58,11 +58,18 @@ class Project
      *      )
      */
      private $users;
+     
+    /**
+     * 
+     * @ORM\OneToMany(targetEntity="PRO4\ProjectBundle\Entity\Department", mappedBy="project", cascade={"persist"})
+     **/
+     private $departments;
 
 
 	public function __construct() {
 		$this->completed = false;
 		$this->users = new ArrayCollection();
+		$this->departments = new ArrayCollection();
 	}
 	
 	public function getId() {
@@ -184,5 +191,40 @@ class Project
     public function getUsers()
     {
         return $this->users;
+    }
+
+    /**
+     * Add department
+     *
+     * @param \PRO4\ProjectBundle\Entity\Department $department
+     * @return Project
+     */
+    public function addDepartment(\PRO4\ProjectBundle\Entity\Department $department)
+    {
+        $this->departments[] = $department;
+        $department->setProject($this);
+    
+        return $this;
+    }
+
+    /**
+     * Remove department
+     *
+     * @param \PRO4\ProjectBundle\Entity\Department $department
+     */
+    public function removeDepartment(\PRO4\ProjectBundle\Entity\Department $department)
+    {
+        $this->departments->removeElement($department);
+        $department->setProject(null);
+    }
+
+    /**
+     * Get departments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDepartments()
+    {
+        return $this->departments;
     }
 }

@@ -4,18 +4,20 @@
 	<h1>Users in Project</h1>
 	<div id="users">
 	
-	{% if showForm is not defined or showForm %}
+	{% if isAdmin is not defined or isAdmin %}
 			{% block form %}{% endblock %}
 	{% endif %}
 	
 	<h3>Users</h3>
-	
-	{% if users is empty %}
-		<strong>No users yet!</strong>
-	{% endif %}
+
 	{% for user in users %}
 		<div>
-        	{{ user.eMail }}
+        	{{ user.eMail }} 
+        	{% if isAdmin %}
+	        	{% if user.userId != app.user.userId %}
+	        		<a href="{{ path("remove_user_from_project", {"projectId" : project.projectId, "userId" : user.userId}) }}">remove</a>
+				{% endif %}
+			{% endif %}
 		<div>
 	{% endfor %}
 	</div>

@@ -65,6 +65,28 @@ class MyController extends Controller {
         $aclProvider->updateAcl($acl);
     }
     
+    public function removePermissions($object, $user) {
+    	$aclProvider = $this->get('security.acl.provider');
+    	$objectIdentity = ObjectIdentity::fromDomainObject($object);
+    	$securityIdentity = UserSecurityIdentity::fromAccount($user);
+    	
+    	try {
+		    $acl = $aclProvider->findAcl($objectIdentity);
+		    $aces = $acl->getObjectAces();
+		
+			foreach($aces as $index => $ace) {
+			    if($ace->getSecurityIdentity() == $securityIdentity) {
+			        $acl->deleteObjectAce($index);
+			        break;
+			    }
+			}
+			
+			$aclProvider->updateAcl($acl);
+		} catch (AclNotFoundException $e) {
+		    // intentionally left empty
+		}
+    }
+    
     public function checkPermission($permission, $object) {
     	if($this->hasPermission($permission, $object) === FALSE) {
    			throw new AccessDeniedException();
