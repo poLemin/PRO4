@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * User
  *
  * @ORM\Table(name="user")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="PRO4\UserBundle\Entity\UserRepository")
  * @UniqueEntity("eMail")
  */
 class User implements UserInterface
@@ -62,6 +62,15 @@ class User implements UserInterface
      *      )
      */
     private $projects;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="\PRO4\ProjectBundle\Entity\Department", mappedBy="users")
+     * @ORM\JoinTable(name="user_in_department",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="user_id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="department_id", referencedColumnName="department_id")}
+     *      )
+     */
+    private $departments;
 
 
 	public function __construct()
@@ -69,6 +78,7 @@ class User implements UserInterface
         $this->activated = true;
         $this->salt = md5(uniqid(null, true));
         $this->projects = new ArrayCollection();
+        $this->departments = new ArrayCollection();
     }
 
     /**
@@ -277,5 +287,38 @@ class User implements UserInterface
     public function getProjects()
     {
         return $this->projects;
+    }
+
+    /**
+     * Add department
+     *
+     * @param \PRO4\ProjectBundle\Entity\Department $department
+     * @return User
+     */
+    public function addDepartment(\PRO4\ProjectBundle\Entity\Department $department)
+    {
+        $this->departments[] = $department;
+    
+        return $this;
+    }
+
+    /**
+     * Remove department
+     *
+     * @param \PRO4\ProjectBundle\Entity\Department $department
+     */
+    public function removeDepartment(\PRO4\ProjectBundle\Entity\Department $department)
+    {
+        $this->departments->removeElement($department);
+    }
+
+    /**
+     * Get departments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDepartments()
+    {
+        return $this->departments;
     }
 }

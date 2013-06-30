@@ -65,6 +65,16 @@ class Department
 	{
 		$this->users = new ArrayCollection();
 	}
+	
+	/**
+     * Get departmentId
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->getDepartmentId();
+    }
 
     /**
      * Get departmentId
@@ -151,25 +161,27 @@ class Department
 	}
 
     /**
-     * Add users
+     * Add user
      *
-     * @param \PRO4\UserBundle\Entity\User $users
+     * @param \PRO4\UserBundle\Entity\User $user
      * @return Department
      */
-    public function addUser(\PRO4\UserBundle\Entity\User $users)
+    public function addUser(\PRO4\UserBundle\Entity\User $user)
     {
-        $this->users[] = $users;
+    	$user->addDepartment($this);
+        $this->users[] = $user;
     
         return $this;
     }
 
     /**
-     * Remove users
+     * Remove user
      *
-     * @param \PRO4\UserBundle\Entity\User $users
+     * @param \PRO4\UserBundle\Entity\User $user
      */
-    public function removeUser(\PRO4\UserBundle\Entity\User $users)
+    public function removeUser(\PRO4\UserBundle\Entity\User $user)
     {
-        $this->users->removeElement($users);
+    	$user->removeDepartment($this);
+        $this->users->removeElement($user);
     }
 }

@@ -2,15 +2,15 @@
 
 {% block form %}
 	<form method="post">
-	<fieldset>
-		<legend>Add new User to Project</legend>
-		<ul>
-			<li>{{ form_row(form.eMail) }}</li>
-		</ul>
-		{{ form_widget(form) }}
-	
-		<button type="submit">Add User</button>
-	</fieldset>
-</form>
+		<fieldset>
+			<legend>Add new User to Project</legend>
+			<ul>
+				<li>{{ form_row(form.eMail) }}</li>
+			</ul>
+			{{ form_widget(form) }}
+		
+			<button type="submit">Add User</button>
+		</fieldset>
+	</form>
 
 {% endblock %}

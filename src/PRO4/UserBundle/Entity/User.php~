@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * User
  *
  * @ORM\Table(name="user")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="PRO4\UserBundle\Entity\UserRepository")
  * @UniqueEntity("eMail")
  */
 class User implements UserInterface
@@ -62,6 +62,15 @@ class User implements UserInterface
      *      )
      */
     private $projects;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="\PRO4\ProjectBundle\Entity\Department", mappedBy="users")
+     * @ORM\JoinTable(name="user_in_department",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="user_id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="department_id", referencedColumnName="department_id")}
+     *      )
+     */
+    private $departments;
 
 
 	public function __construct()

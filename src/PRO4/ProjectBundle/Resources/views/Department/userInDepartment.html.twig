@@ -5,7 +5,17 @@
 	<div id="users">
 	
 	{% if isAdmin is not defined or isAdmin %}
-			{% block form %}{% endblock %}
+		<form method="post">
+			<fieldset>
+				<legend>Add new User to Department</legend>
+				<ul>
+					<li>{{ form_row(form.users) }}</li>
+				</ul>
+				{{ form_widget(form) }}
+			
+				<button type="submit">Add User</button>
+			</fieldset>
+		</form>
 	{% endif %}
 	
 	<h3>Users</h3>
@@ -16,12 +26,13 @@
 	
 	{% for user in users %}
 		<div>
-			{{ user.name }}
-			
+			{{ user.eMail }}
 			
         	{% if isAdmin %}
-        		<a href="{{ path("remove_department", {"projectId" : project.projectId, "departmentId" : department.departmentId}) }}">remove</a>
-        		| <a href="{{ path("edit_department", {"projectId" : project.projectId, "departmentId" : department.departmentId}) }}">edit</a>
+	        	{% if user.userId != app.user.userId %}
+	        		<a href="{{ path("remove_department", {"projectId" : project.projectId, "departmentId" : department.departmentId}) }}">remove</a>
+	        		| <a href="{{ path("edit_department", {"projectId" : project.projectId, "departmentId" : department.departmentId}) }}">edit</a>
+	        	{% endif %}
 			{% endif %}
 			
 		<div>

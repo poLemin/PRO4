@@ -6,6 +6,8 @@ use PRO4\MainBundle\Controller\MyController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
+use Doctrine\ORM\EntityRepository;
+
 use PRO4\ProjectBundle\Entity\Project;
 use PRO4\UserBundle\Entity\User;
 
@@ -42,6 +44,7 @@ class DepartmentController extends MyController {
 	        if ($form->isValid()) {
 	        	if($departmentId === null) {
 	        		$project->addDepartment($department);
+	        		$department->addUser($this->getUser());
 	        	}
 	        	
         		$em = $this->getDoctrine()->getManager();
@@ -51,6 +54,10 @@ class DepartmentController extends MyController {
 	        	$em = $this->getDoctrine()->getManager();
    				$em->persist($department);
     			$em->flush();
+    			
+    			if($departmentId === null) {
+    				$this->addPermission($department, MaskBuilder::MASK_OPERATOR, $this->getUser());
+    			}
     			
     			$action = ($departmentId === null ? "added" : "edited");
     			
@@ -71,6 +78,9 @@ class DepartmentController extends MyController {
     	$department = $this->find("PRO4\ProjectBundle\Entity\Department", $departmentId);
 
     	$project->removeDepartment($department);
+    	$department->removeUser($this->getUser());
+	    
+	    $this->removePermissions($department, $this->getUser());
 	    
         $em = $this->getDoctrine()->getManager();
         $em->remove($department);
@@ -90,9 +100,27 @@ class DepartmentController extends MyController {
    		$this->checkPermission("EDIT", $project);
    		$isAdmin = $this->hasPermission("EDIT", $project);
    		$department = $this->find("PRO4\ProjectBundle\Entity\Department", $departmentId);
+   		
+   		$em = $this->getDoctrine()->getManager();
+   		$form = $this->createFormBuilder()
+	        ->add('users', 'entity', array(
+			    'class' => 'PRO4UserBundle:User',
+			    'property' => 'eMail',
+			    'query_builder' => $em->getRepository("PRO4UserBundle:User")->findUsersInProject($project),
+			))
+			->getForm();
+   		
    		$users = $department->getUsers();
    		
-   		return $this->render('PRO4ProjectBundle:Department:userInDepartment.html.twig', array("isAdmin" => $isAdmin, "project" => $project, "department" => $department, "users" => $users));
+   		
+   		
+   		return $this->render('PRO4ProjectBundle:Department:userInDepartment.html.twig', array("form" => $form->createView(), "isAdmin" => $isAdmin, "project" => $project, "department" => $department, "users" => $users));
    	}
+   	
+   	public function findBySuperCategoryName($superCategoryName) {
+	    return $this->createQueryBuilder('c')
+	            ->innerJoin('c.superCategories', 's', 'WITH', 's.name = :superCategoryName')
+	            ->setParameter('superCategoryName', $superCategoryName);
+	}
    
 }
