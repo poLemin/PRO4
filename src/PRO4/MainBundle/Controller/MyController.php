@@ -11,6 +11,7 @@ use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
 use Symfony\Component\Security\Acl\Permission\MaskBuilder;
 use Symfony\Component\Security\Acl\Exception\AclNotFoundException;
+use Symfony\Component\Security\Acl\Exception\NoAceFoundException;
 
 class MyController extends Controller {
 	public function getUser() {
@@ -65,6 +66,22 @@ class MyController extends Controller {
         $aclProvider->updateAcl($acl);
     }
     
+    public function makeViewer($object, $user) {
+    	$this->addPermission($object, MaskBuilder::MASK_VIEW, $user);
+    }
+    
+    public function makeAdmin($object, $user) {
+    	$this->addPermission($object, MaskBuilder::MASK_EDIT, $user);
+    }
+    
+    public function makeOperator($object, $user) {
+    	$this->addPermission($object, MaskBuilder::MASK_OPERATOR, $user);
+    }
+    
+    public function makeOwner($object, $user) {
+    	$this->addPermission($object, MaskBuilder::MASK_OWNER, $user);
+    }
+    
     public function removePermissions($object, $user) {
     	$aclProvider = $this->get('security.acl.provider');
     	$objectIdentity = ObjectIdentity::fromDomainObject($object);
@@ -93,7 +110,39 @@ class MyController extends Controller {
    		}
     }
     
+    public function hasUserPermission($object, $mask, $user) {
+    	$aclProvider = $this->get('security.acl.provider');
+    	$objectIdentity = ObjectIdentity::fromDomainObject($object);
+    	
+    	try {
+		    $acl = $aclProvider->findAcl($objectIdentity);
+		} catch (AclNotFoundException $e) {
+		    $acl = $aclProvider->createAcl($objectIdentity);
+		}
+
+		$securityIdentity = UserSecurityIdentity::fromAccount($user);
+		
+		try {
+    		$returnValue =  $acl->isGranted(array($mask), array( $securityIdentity));
+    	} catch(NoAceFoundException $e) {
+    		return false;
+    	}
+    	return $returnValue;
+    }
+    
     public function hasPermission($permission, $object) {
     	return $this->get('security.context')->isGranted($permission, $object);
+    }
+    
+    public function isUserAdmin($object, $user) {
+    	return $this->hasUserPermission($object, MaskBuilder::MASK_EDIT, $user);
+    }
+    
+    public function isUserOwner($object, $user) {
+    	return $this->hasUserPermission($object, MaskBuilder::MASK_OWNER, $user);
+    }
+    
+    public function isUserOperator($object, $user) {
+    	return $this->hasUserPermission($object, MaskBuilder::MASK_OPERATOR, $user);
     }
 }

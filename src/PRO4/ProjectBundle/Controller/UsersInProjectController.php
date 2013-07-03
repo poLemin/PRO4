@@ -24,6 +24,12 @@ class UsersInProjectController extends MyController {
     	$project = $this->find("PRO4\ProjectBundle\Entity\Project", $id);
     	$this->checkPermission("VIEW", $project);
     	$users = $project->getUsers();
+   		foreach($users AS $user) {
+   			$user->setIsOwner($this->hasUserPermission($project, MaskBuilder::MASK_OWNER, $user));
+   			if(!$user->isOwner()) {
+   				$user->setIsAdmin($this->hasUserPermission($project, MaskBuilder::MASK_EDIT, $user));
+   			}
+   		}
     	
     	$form = $this->createFormBuilder()
 	        ->add("eMail", "email",array(
@@ -75,12 +81,18 @@ class UsersInProjectController extends MyController {
     	
     	return $this->render("PRO4ProjectBundle:UsersInProject:userForm.html.twig", array("form" => $form->createView(), "isAdmin" => $isAdmin, "project" => $project, "users" => $users));
     }
-   	
-   	public function removeAction(Request $request, $projectId, $userId) {
+    
+    public function removeAction(Request $request, $projectId, $userId) {
    		$project = $this->find("PRO4\ProjectBundle\Entity\Project", $projectId);
-    	$this->checkPermission("EDIT", $project);
-    	$user = $this->find("PRO4\UserBundle\Entity\User", $userId);
-    	if($this->getUser()->getUserId() == $userId) {
+   		$user = $this->find("PRO4\UserBundle\Entity\User", $userId);
+   		
+   		if($this->hasUserPermission($project, MaskBuilder::EDIT_MASK, $user)) {
+   			$this->checkPermission("OWNER", $project);
+   		} else {
+   			$this->checkPermission("EDIT", $project);
+   		}
+    	
+    	if($this->getUser()->getUserId() == $userId || $this->isUserOwner($project, $user) || !$project->getUsers()->contains($user)) {
     		throw new InvalidArgumentException();
     	}
     	$project->removeUser($user);
@@ -93,6 +105,41 @@ class UsersInProjectController extends MyController {
     	$this->get('session')->getFlashBag()->add(
 				    'success',
 				    'You successfully removed ' . $user->getEmail() . ' from this project!'
+				);
+				
+		return $this->redirect($this->generateUrl("users_in_project", array("id" => $project->getId())));
+   	}
+   	
+   	public function grantAdminAction(Request $request, $projectId, $userId) {
+   		$project = $this->find("PRO4\ProjectBundle\Entity\Project", $projectId);
+    	$this->checkPermission("OWNER", $project);
+    	$user = $this->find("PRO4\UserBundle\Entity\User", $userId);
+    	if($this->getUser()->getUserId() == $userId || $this->isUserOwner($project, $user) || !$project->getUsers()->contains($user)) {
+    		throw new InvalidArgumentException();
+    	}
+    	$this->makeAdmin($project, $user);
+    	
+    	$this->get('session')->getFlashBag()->add(
+				    'success',
+				    'You successfully gave ' . $user->getEmail() . ' admin-rights!'
+				);
+				
+		return $this->redirect($this->generateUrl("users_in_project", array("id" => $project->getId())));
+   	}
+   	
+   	public function revokeAdminAction(Request $request, $projectId, $userId) {
+   		$project = $this->find("PRO4\ProjectBundle\Entity\Project", $projectId);
+    	$this->checkPermission("OPERATOR", $project);
+    	$user = $this->find("PRO4\UserBundle\Entity\User", $userId);
+    	if($this->getUser()->getUserId() == $userId || !$project->getUsers()->contains($user)) {
+    		throw new InvalidArgumentException();
+    	}
+    	$this->removePermissions($project, $user);
+    	$this->addPermission($project, MaskBuilder::MASK_VIEW, $user);
+    	
+    	$this->get('session')->getFlashBag()->add(
+				    'success',
+				    'You successfully took admin-rights from ' . $user->getEmail() . '!'
 				);
 				
 		return $this->redirect($this->generateUrl("users_in_project", array("id" => $project->getId())));

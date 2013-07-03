@@ -71,6 +71,11 @@ class User implements UserInterface
      *      )
      */
     private $departments;
+    
+    private $isOwner;
+    private $isOperator;
+    private $isAdmin;
+    private $isViewer;
 
 
 	public function __construct()
@@ -79,6 +84,11 @@ class User implements UserInterface
         $this->salt = md5(uniqid(null, true));
         $this->projects = new ArrayCollection();
         $this->departments = new ArrayCollection();
+        
+        $this->isOwner = false;
+        $this->isOperator = false;
+        $this->isAdmin = false;
+        $this->isViewer = false;
     }
 
     /**
@@ -320,5 +330,60 @@ class User implements UserInterface
     public function getDepartments()
     {
         return $this->departments;
+    }
+    
+    public function setIsOwner($isOwner) {
+    	$this->isOwner = $isOwner;
+    	$this->isOperator = $isOwner;
+    	$this->isAdmin = $isOwner;
+        $this->isViewer = $isOwner;
+    	
+    	return $this;
+    }
+    
+    public function isOwner() {
+    	return $this->isOwner;
+    }
+    
+    public function setIsOperator($isOperator) {
+    	$this->isOwner = false;
+    	    	
+    	$this->isOperator = $isOperator;
+    	$this->isAdmin = $isOperator;
+        $this->isViewer = $isOperator;
+    	
+    	return $this;
+    }
+    
+    public function isOperator() {
+    	return $this->isOperator;
+    }
+    
+    public function setIsAdmin($isAdmin) {
+    	$this->isOwner = false;
+    	$this->isOperator = false;
+    	
+    	$this->isAdmin = $isAdmin;
+        $this->isViewer = $isAdmin;
+    	
+    	return $this;
+    }
+    
+    public function isAdmin() {
+    	return $this->isAdmin;
+    }
+    
+    public function setIsViewer($isViewer) {
+    	$this->isOwner = false;
+    	$this->isOperator = false;
+    	$this->isAdmin = false;
+    	
+    	$this->isViewer = $isViewer;
+    	
+    	return $this;
+    }
+    
+    public function isViewer() {
+    	return $this->isViewer;
     }
 }

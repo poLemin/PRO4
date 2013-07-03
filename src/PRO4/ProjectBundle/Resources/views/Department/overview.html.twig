@@ -16,7 +16,7 @@
 	{% for department in departments %}
 		<div>
 			{{ department.color}}
-			<a href="{{ path("user_in_department", {"projectId" : project.projectId, "departmentId" : department.departmentId}) }}">{{ department.name }}</a>
+			<a href="{{ path("users_in_department", {"projectId" : project.projectId, "departmentId" : department.departmentId}) }}">{{ department.name }}</a>
 			
 			
         	{% if isAdmin %}

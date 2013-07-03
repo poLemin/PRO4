@@ -48,7 +48,7 @@ class ProjectController extends MyController {
    				$em->persist($project);
     			$em->flush();
     			
-    			$this->addPermission($project, MaskBuilder::MASK_OPERATOR, $this->getUser());
+    			$this->addPermission($project, MaskBuilder::MASK_OWNER, $this->getUser());
     			
     			$this->get('session')->getFlashBag()->add(
 				    'success',

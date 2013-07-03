@@ -42,6 +42,15 @@ users_in_project:
 remove_user_from_project:
     pattern: /app/project/{projectId}/users/{userId}/remove
     defaults: { _controller: PRO4ProjectBundle:UsersInProject:remove }
+    
+grant_admin_in_project:
+    pattern: /app/project/{projectId}/users/{userId}/grantAdmin
+    defaults: { _controller: PRO4ProjectBundle:UsersInProject:grantAdmin }
+    
+revoke_admin_in_project:
+    pattern: /app/project/{projectId}/users/{userId}/revokeAdmin
+    defaults: { _controller: PRO4ProjectBundle:UsersInProject:revokeAdmin }
+
 
 department_overview:
     pattern: /app/project/{projectId}/departments
@@ -55,9 +64,23 @@ edit_department:
     pattern: /app/project/{projectId}/departments/{departmentId}/edit
     defaults: { _controller: PRO4ProjectBundle:Department:index }
     
-user_in_department:
+    
+users_in_department:
     pattern: /app/project/{projectId}/departments/{departmentId}
-    defaults: { _controller: PRO4ProjectBundle:Department:userInDepartment }
+    defaults: { _controller: PRO4ProjectBundle:Department:usersInDepartment }
+    
+remove_user_from_department:
+    pattern: /app/project/{projectId}/departments/{departmentId}/user/{userId}/remove
+    defaults: { _controller: PRO4ProjectBundle:Department:removeUserFromDepartment }
+    
+grant_admin_in_department:
+    pattern: /app/project/{projectId}/departments/{departmentId}/user/{userId}/grantAdmin
+    defaults: { _controller: PRO4ProjectBundle:Department:grantAdminForDepartment }
+    
+revoke_admin_in_department:
+    pattern: /app/project/{projectId}/departments/{departmentId}/user/{userId}/revokeAdmin
+    defaults: { _controller: PRO4ProjectBundle:Department:revokeAdminFromDepartment }
+
 
 
 milestone_plan:

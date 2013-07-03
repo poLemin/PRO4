@@ -12,11 +12,27 @@
 
 	{% for user in users %}
 		<div>
-        	{{ user.eMail }} 
-        	{% if isAdmin %}
-	        	{% if user.userId != app.user.userId %}
-	        		<a href="{{ path("remove_user_from_project", {"projectId" : project.projectId, "userId" : user.userId}) }}">remove</a>
-				{% endif %}
+			{{ user.eMail }}
+			{% if user.isOwner %}
+				| Project Owner
+			{% elseif user.isAdmin %}
+				| Admin
+			{% endif %} 
+			
+			{% if is_granted("EDIT", project) %}
+	        	{% if not user.isOwner %}
+					{% if not user.isAdmin or is_granted("OWNER", project) %}
+	        			| <a href="{{ path("remove_user_from_project", {"projectId" : project.projectId, "userId" : user.userId }) }}">Remove</a>        			
+		        	{% endif %}
+		        	
+		        	{% if is_granted("OWNER", project) %}
+		        		{% if user.isAdmin %}
+		        			| <a href="{{ path("revoke_admin_in_project", {"projectId" : project.projectId, "userId" : user.userId }) }}">Revoke Admin</a>
+		        		{% else %}
+		        			| <a href="{{ path("grant_admin_in_project", {"projectId" : project.projectId, "userId" : user.userId }) }}">Grant Admin</a>
+		        		{% endif %}
+		        	{% endif %}
+	        	{% endif %}
 			{% endif %}
 		<div>
 	{% endfor %}

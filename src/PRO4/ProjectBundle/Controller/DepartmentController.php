@@ -42,7 +42,7 @@ class DepartmentController extends MyController {
     		$this->checkPermission("EDIT", $project);
 	        $form->bind($request);
 	        if ($form->isValid()) {
-	        	if($departmentId === null) {
+	        	if($departmentId === null) {	        		
 	        		$project->addDepartment($department);
 	        		$department->addUser($this->getUser());
 	        	}
@@ -56,7 +56,15 @@ class DepartmentController extends MyController {
     			$em->flush();
     			
     			if($departmentId === null) {
-    				$this->addPermission($department, MaskBuilder::MASK_OPERATOR, $this->getUser());
+    				$this->makeOperator($department, $this->getUser());
+    				
+    				// add project owner as department owner
+	        		$users = $project->getUsers();
+	        		foreach($users AS $user) {
+	        			if($this->isUserOwner($project, $user)) {
+	        				$this->makeOwner($department, $user);
+	        			}
+	        		}
     			}
     			
     			$action = ($departmentId === null ? "added" : "edited");
@@ -95,32 +103,113 @@ class DepartmentController extends MyController {
 		return $this->redirect($this->generateUrl("department_overview", array("projectId" => $projectId)));
    	}
    	
-   	public function userInDepartmentAction(Request $request, $projectId, $departmentId) {
+   	public function usersInDepartmentAction(Request $request, $projectId, $departmentId) {
    		$project = $this->find("PRO4\ProjectBundle\Entity\Project", $projectId);
-   		$this->checkPermission("EDIT", $project);
+   		$this->checkPermission("VIEW", $project);
    		$isAdmin = $this->hasPermission("EDIT", $project);
    		$department = $this->find("PRO4\ProjectBundle\Entity\Department", $departmentId);
    		
    		$em = $this->getDoctrine()->getManager();
    		$form = $this->createFormBuilder()
-	        ->add('users', 'entity', array(
+	        ->add('user', 'entity', array(
 			    'class' => 'PRO4UserBundle:User',
 			    'property' => 'eMail',
-			    'query_builder' => $em->getRepository("PRO4UserBundle:User")->findUsersInProject($project),
+			    'query_builder' => $em->getRepository("PRO4UserBundle:User")->findUsersInProjectNotInDepartment($project, $department),
+    			'empty_value' => "Select User",
 			))
 			->getForm();
    		
    		$users = $department->getUsers();
+   		foreach($users AS $user) {
+   			$user->setIsOwner($this->isUserOwner($department, $user));
+   			if(!$user->isOwner()) {
+   				$user->setIsOperator($this->isUserOperator($department,$user));
+   				if(!$user->isOperator()) {
+	   				$user->setIsAdmin($this->isUserAdmin($department, $user));
+	   			}
+   			}
+   		}
    		
+   		if ($request->isMethod("POST")) {
+    		$this->checkPermission("EDIT", $project);
+	        $form->bind($request);
+	        if ($form->isValid()) {
+	        	
+	        	$data = $form->getData();
+	        	$user = $data["user"];
+	        	
+	        	$department->addUser($user);
+	        	$this->makeViewer($department, $user);
+	        	
+	        	$em = $this->getDoctrine()->getManager();
+   				$em->persist($department);
+    			$em->flush();
+    			
+    			$this->get('session')->getFlashBag()->add(
+				    "success",
+				    "You successfully added " . $user->getEmail() . " to the department."
+				);
+				
+				return $this->redirect($this->generateUrl("users_in_department", array("projectId" => $projectId, "departmentId" => $departmentId)));
+	        }
+        }
    		
-   		
-   		return $this->render('PRO4ProjectBundle:Department:userInDepartment.html.twig', array("form" => $form->createView(), "isAdmin" => $isAdmin, "project" => $project, "department" => $department, "users" => $users));
+   		return $this->render('PRO4ProjectBundle:Department:usersInDepartment.html.twig', array("form" => $form->createView(), "isAdmin" => $isAdmin, "project" => $project, "department" => $department, "users" => $users));
    	}
    	
-   	public function findBySuperCategoryName($superCategoryName) {
-	    return $this->createQueryBuilder('c')
-	            ->innerJoin('c.superCategories', 's', 'WITH', 's.name = :superCategoryName')
-	            ->setParameter('superCategoryName', $superCategoryName);
-	}
+   	public function removeUserFromDepartmentAction($projectId, $departmentId, $userId) {
+   		$project = $this->find("PRO4\ProjectBundle\Entity\Project", $projectId);
+   		$department = $this->find("PRO4\ProjectBundle\Entity\Department", $departmentId);
+   		$user = $this->find("PRO4\UserBundle\Entity\User", $userId);
+   		
+   		// check if user has sufficient permissions to delete a user
+   		if($this->isUserAdmin($department, $user)) {
+   			$this->checkPermission("OPERATOR", $department);
+   		} else {
+   			$this->checkPermission("EDIT", $department);
+   		}
+    	
+    	if($this->getUser()->getUserId() == $userId || $this->isUserOperator($department, $user) || !$project->getUsers()->contains($user)) {
+    		throw new InvalidArgumentException();
+    	}
+    	$department->removeUser($user);
+    	$this->removePermissions($department, $user);
+	            
+        $em = $this->getDoctrine()->getManager();
+		$em->persist($project);
+		$em->flush();
+    	
+    	$this->get('session')->getFlashBag()->add(
+				    'success',
+				    'You successfully removed ' . $user->getEmail() . ' from this department!'
+				);
+				
+		return $this->redirect($this->generateUrl("users_in_department", array("projectId" => $project->getProjectId(), "departmentId" => $department->getDepartmentId())));
+   	}
+   	
+   	public function grantAdminInDepartmentAction($projectId, $departmentId, $userId) {
+   		$this->checkPermission("OPERATOR", $department);
+   		
+   		$project = $this->find("PRO4\ProjectBundle\Entity\Project", $projectId);
+    	$department = $this->find("PRO4\ProjectBundle\Entity\Department", $departmentId);
+   		$user = $this->find("PRO4\UserBundle\Entity\User", $userId);
+   		
+    	if($this->getUser()->getUserId() == $userId || $this->isUserAdmin($department, $user) || !$department->getUsers()->contains($user)) {
+    		throw new InvalidArgumentException();
+    	}
+    	
+    	$this->makeAdmin($department, $user);
+    	
+    	$this->get('session')->getFlashBag()->add(
+				    'success',
+				    'You successfully gave ' . $user->getEmail() . ' admin-rights for this department!'
+				);
+				
+		return $this->redirect($this->generateUrl("users_in_department", array("projectId" => $project->getProjectId(), "departmentId" => $department->getDepartmentId())));
+   	}
+   	
+   	public function revokeAdminInDepartmentAction() {
+   		
+   	}
    
 }
