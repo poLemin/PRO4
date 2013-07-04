@@ -135,7 +135,7 @@ class UsersInProjectController extends MyController {
     		throw new InvalidArgumentException();
     	}
     	$this->removePermissions($project, $user);
-    	$this->addPermission($project, MaskBuilder::MASK_VIEW, $user);
+    	$this->makeViewer($project, $user);
     	
     	$this->get('session')->getFlashBag()->add(
 				    'success',

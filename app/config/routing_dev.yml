@@ -62,7 +62,7 @@ remove_department:
     
 edit_department:
     pattern: /app/project/{projectId}/departments/{departmentId}/edit
-    defaults: { _controller: PRO4ProjectBundle:Department:index }
+    defaults: { _controller: PRO4ProjectBundle:Department:edit }
     
     
 users_in_department:
@@ -75,11 +75,11 @@ remove_user_from_department:
     
 grant_admin_in_department:
     pattern: /app/project/{projectId}/departments/{departmentId}/user/{userId}/grantAdmin
-    defaults: { _controller: PRO4ProjectBundle:Department:grantAdminForDepartment }
+    defaults: { _controller: PRO4ProjectBundle:Department:grantAdminInDepartment }
     
 revoke_admin_in_department:
     pattern: /app/project/{projectId}/departments/{departmentId}/user/{userId}/revokeAdmin
-    defaults: { _controller: PRO4ProjectBundle:Department:revokeAdminFromDepartment }
+    defaults: { _controller: PRO4ProjectBundle:Department:revokeAdminInDepartment }
 
 
 
