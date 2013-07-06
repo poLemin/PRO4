@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Department
  *
  * @ORM\Table(name="department")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="PRO4\ProjectBundle\Entity\DepartmentRepository")
  */
 class Department
 {
@@ -58,11 +58,12 @@ class Department
      *      joinColumns={@ORM\JoinColumn(name="department_id", referencedColumnName="department_id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="user_id")}
      *      )
+     * @ORM\OrderBy({"eMail" = "ASC"})
+     * 
      **/
 	private $users;
 
-	public function __construct()
-	{
+	public function __construct() {
 		$this->users = new ArrayCollection();
 	}
 	

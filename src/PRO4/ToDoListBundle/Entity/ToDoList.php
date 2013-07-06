@@ -3,12 +3,13 @@
 namespace PRO4\ToDoListBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * ToDoList
  *
  * @ORM\Table(name="to_do_list")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="PRO4\ToDoListBundle\Entity\ToDoListRepository")
  */
 class ToDoList
 {
@@ -54,7 +55,19 @@ class ToDoList
      * })
      */
     private $project;
+    
+    /**
+     * 
+     * @ORM\OneToMany(targetEntity="PRO4\ToDoListBundle\Entity\ListItem", mappedBy="toDoList", cascade={"persist"})
+     * @ORM\OrderBy({"completed" = "ASC", "name" = "ASC"})
+     **/
+     private $listItems;
+    
 
+	public function __construct() {
+		$this->listItems = new ArrayCollection();
+		$this->completed = false;
+	}
 
 
     /**
@@ -91,14 +104,17 @@ class ToDoList
     }
 
     /**
-     * Set completed
+     * Set completed true
      *
      * @param boolean $completed
      * @return ToDoList
      */
-    public function setCompleted($completed)
+    public function complete()
     {
-        $this->completed = $completed;
+        $this->completed = true;
+        foreach($this->listItems as $item) {
+        	$item->complete();
+        }
     
         return $this;
     }
@@ -108,7 +124,7 @@ class ToDoList
      *
      * @return boolean 
      */
-    public function getCompleted()
+    public function isCompleted()
     {
         return $this->completed;
     }
@@ -157,5 +173,40 @@ class ToDoList
     public function getProject()
     {
         return $this->project;
+    }
+
+    /**
+     * Add listItem
+     *
+     * @param \PRO4\ToDoListBundle\Entity\ListItem $listItem
+     * @return ToDoList
+     */
+    public function addListItem(\PRO4\ToDoListBundle\Entity\ListItem $listItem)
+    {
+        $this->listItems[] = $listItem;
+        $listItem->setToDoList($this);
+    
+        return $this;
+    }
+
+    /**
+     * Remove listItems
+     *
+     * @param \PRO4\ToDoListBundle\Entity\ListItem $listItems
+     */
+    public function removeListItem(\PRO4\ToDoListBundle\Entity\ListItem $listItems)
+    {
+        $this->listItems->removeElement($listItems);
+        $listItem->setToDoList(null);
+    }
+
+    /**
+     * Get listItems
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getListItems()
+    {
+        return $this->listItems;
     }
 }

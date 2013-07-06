@@ -2,7 +2,6 @@
 
 {% block content %}
 	<h1>Users in Project</h1>
-	<div id="users">
 	
 	{% if isAdmin is not defined or isAdmin %}
 			{% block form %}{% endblock %}
@@ -36,6 +35,5 @@
 			{% endif %}
 		<div>
 	{% endfor %}
-	</div>
 		
 {% endblock %}

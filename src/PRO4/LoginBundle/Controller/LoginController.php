@@ -63,7 +63,7 @@ class LoginController extends MyController {
     	}
     	
     	$user = new User();
-		$form = $this->createForm(new UserType(), $user, array("attr" => array("register" => true)));
+		$form = $this->createForm(new UserType(UserType::REGISTER), $user);
 	
 		if ($request->isMethod('POST')) {
             $form->bind($request);

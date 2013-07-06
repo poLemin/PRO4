@@ -56,12 +56,15 @@ class Project
      *      joinColumns={@ORM\JoinColumn(name="project_id", referencedColumnName="project_id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="user_id")}
      *      )
+     * @ORM\OrderBy({"eMail" = "ASC"})
      */
      private $users;
      
     /**
      * 
      * @ORM\OneToMany(targetEntity="PRO4\ProjectBundle\Entity\Department", mappedBy="project", cascade={"persist"})
+     * @ORM\OrderBy({"name" = "ASC"})
+     * 
      **/
      private $departments;
 

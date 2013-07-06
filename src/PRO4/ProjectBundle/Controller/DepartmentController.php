@@ -6,8 +6,6 @@ use PRO4\MainBundle\Controller\MyController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
-use Doctrine\ORM\EntityRepository;
-
 use PRO4\ProjectBundle\Entity\Project;
 use PRO4\UserBundle\Entity\User;
 

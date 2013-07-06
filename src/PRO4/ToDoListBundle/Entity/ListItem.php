@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * ListItem
  *
  * @ORM\Table(name="list_item")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="PRO4\ToDoListBundle\Entity\ListItemRepository")
  */
 class ListItem
 {
@@ -34,6 +34,13 @@ class ListItem
      * @ORM\Column(name="completed", type="boolean", nullable=false)
      */
     private $completed;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="deleted", type="boolean", nullable=false)
+     */
+    private $deleted;
 
     /**
      * @var \ToDoList
@@ -44,7 +51,12 @@ class ListItem
      * })
      */
     private $toDoList;
-
+	
+	
+	public function __construct() {
+		$this->completed = false;
+		$this->deleted = false;
+	}
 
 
     /**
@@ -81,14 +93,13 @@ class ListItem
     }
 
     /**
-     * Set completed
+     * Set completed true
      *
-     * @param boolean $completed
      * @return ListItem
      */
-    public function setCompleted($completed)
+    public function complete()
     {
-        $this->completed = $completed;
+        $this->completed = true;
     
         return $this;
     }
@@ -98,7 +109,7 @@ class ListItem
      *
      * @return boolean 
      */
-    public function getCompleted()
+    public function isCompleted()
     {
         return $this->completed;
     }
@@ -124,5 +135,28 @@ class ListItem
     public function getToDoList()
     {
         return $this->toDoList;
+    }
+
+    /**
+     * Set deleted true
+     *
+     * @param boolean $deleted
+     * @return ListItem
+     */
+    public function delete()
+    {
+        $this->deleted = true;
+    
+        return $this;
+    }
+
+    /**
+     * Get deleted
+     *
+     * @return boolean 
+     */
+    public function isDeleted()
+    {
+        return $this->deleted;
     }
 }
