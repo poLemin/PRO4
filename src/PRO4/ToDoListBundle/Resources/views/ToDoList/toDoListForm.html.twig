@@ -1,0 +1,20 @@
+{% extends 'PRO4ToDoListBundle:ToDoList:overview.html.twig' %}
+
+{% block form %}
+	<form method="post">
+		<fieldset>
+			<legend>To-Do List Form</legend>
+			<ul>
+				<li>{{ form_row(form.name) }}</li>
+				<li>
+					{{ form_row(form.department) }}
+					<p>Leave this option blank if the to-do list should be visible for the whole project</p>
+				</li>
+			</ul>
+			{{ form_widget(form) }}
+		
+			<button type="submit">Add To-Do List</button>
+		</fieldset>
+	</form>
+
+{% endblock %}

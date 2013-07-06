@@ -17,17 +17,20 @@ logout:
     pattern: /logout
     defaults: { _controller: PRO4LoginBundle:Login:logout }
 
+change_password:
+    pattern: /app/change-password
+    defaults: { _controller: PRO4UserBundle:User:changePassword }
 
 project:
     pattern: /app/project/
     defaults: { _controller: PRO4ProjectBundle:Project:index }
     
 add_project:
-    pattern: /app/project/add/
+    pattern: /app/project/add
     defaults: { _controller: PRO4ProjectBundle:Project:addProject }
 
 project_detail:
-    pattern: /app/project/{id}
+    pattern: /app/project/{id}/
     defaults: { _controller: PRO4ProjectBundle:Project:projectDetail }
     
 edit_project_detail:
@@ -36,7 +39,7 @@ edit_project_detail:
     
     
 users_in_project:
-    pattern: /app/project/{id}/users
+    pattern: /app/project/{id}/users/
     defaults: { _controller: PRO4ProjectBundle:UsersInProject:index }
 
 remove_user_from_project:
@@ -53,7 +56,7 @@ revoke_admin_in_project:
 
 
 department_overview:
-    pattern: /app/project/{projectId}/departments
+    pattern: /app/project/{projectId}/departments/
     defaults: { _controller: PRO4ProjectBundle:Department:index }
     
 remove_department:
@@ -82,6 +85,23 @@ revoke_admin_in_department:
     defaults: { _controller: PRO4ProjectBundle:Department:revokeAdminInDepartment }
 
 
+
+to_do_lists:
+    pattern: /app/project/{projectId}/to-do-lists
+    defaults: { _controller: PRO4ToDoListBundle:ToDoList:index }
+    
+add_to_do_list_item:
+    pattern: /app/project/{projectId}/to-do-lists/{toDoListId}/addItem
+    defaults: { _controller: PRO4ToDoListBundle:ListItem:addItem }
+
+complete_to_do_list_item:
+    pattern: /app/project/{projectId}/to-do-lists/{toDoListId}/items/{itemId}/complete
+    defaults: { _controller: PRO4ToDoListBundle:ListItem:completeItem } 
+    
+delete_to_do_list_item:
+    pattern: /app/project/{projectId}/to-do-lists/{toDoListId}/items/{itemId}/delete
+    defaults: { _controller: PRO4ToDoListBundle:ListItem:deleteItem }    
+    
 
 milestone_plan:
     pattern: /app/project/{id}/milestone_plan/

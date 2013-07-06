@@ -1,0 +1,55 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+	<h1>To-Do Lists</h1>
+	
+	{% block form %}{% endblock %}
+	
+	<h3>To-Do Lists</h3>
+	
+	<div id="todoWrap">
+		{% if toDoLists is empty %}
+			No to-do lists were added so far. Please ask the project or department admins to do so.
+		{% endif %}
+	
+		{% for toDoList in toDoLists %}
+			{% if not toDoList.completed %}
+				<div class="todoContainer">
+					<H1>{{ toDoList.name }}</H1>
+					
+					<ul>
+						{% for listItem in toDoList.listItems %}
+							{% if not listItem.deleted %}
+								{% if listItem.completed %}
+									<li class="completed">
+										{{ listItem.name }}
+										{% if (toDoList.department and is_granted("EDIT", toDoList.department)) or (not toDoList.department and is_granted("EDIT", toDoList.project)) %}
+											| <a href="{{ path("delete_to_do_list_item", {"projectId" : project.projectId, "toDoListId" : toDoList.toDoListId, "itemId" : listItem.listItemId }) }}">Delete</a>
+										{% endif %}
+									</li>
+								{% else %}
+									<li>
+										{{ listItem.name }}
+										| <a href="{{ path("complete_to_do_list_item", {"projectId" : project.projectId, "toDoListId" : toDoList.toDoListId, "itemId" : listItem.listItemId }) }}">Complete</a>
+									</li>
+								{% endif %}
+							{% endif %}
+						{% endfor %}
+					</ul>
+					
+					<form method="post" action="{{ path("add_to_do_list_item", {"projectId" : project.projectId, "toDoListId" : toDoList.toDoListId }) }}">
+						<p>{{ form_errors(forms[loop.index0].name) }}</p>
+						
+						<p>
+							{{ form_widget(forms[loop.index0].name) }} 
+							<button type="submit">Add Item</button>
+						</p>
+						
+						{{ form_widget(forms[loop.index0]) }}
+					</form>
+				</div>
+			{% endif %}
+		{% endfor %}
+	</div>
+		
+{% endblock %}
