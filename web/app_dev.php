@@ -24,5 +24,6 @@ $kernel->loadClassCache();
 Request::enableHttpMethodParameterOverride();
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
+//penis
 $response->send();
 $kernel->terminate($request, $response);
